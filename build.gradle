@@ -1,0 +1,83 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.commercehub.gradle.plugin.avro' version '0.22.0'
+}
+
+group = 'br.gabrielsmartins.smartpayment.frauds'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+apply from: "$rootDir/repositories.gradle"
+
+ext {
+    set('springCloudVersion', "2020.0.1")
+    set('modelMapperVersion', "2.3.9")
+    set('h2Version', "1.4.200")
+    set('avroVersion', "1.10.1")
+    set('avroSerializerVersion', "6.1.0")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+
+
+    implementation group: 'org.apache.avro', name: 'avro', version: avroVersion
+    implementation group: 'io.confluent', name: 'kafka-avro-serializer', version: avroSerializerVersion
+
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: modelMapperVersion
+
+    implementation 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly 'dev.miku:r2dbc-mysql'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+    testImplementation("org.springframework.cloud:spring-cloud-stream") {
+        artifact {
+            name = "spring-cloud-stream"
+            extension = "jar"
+            type ="test-jar"
+            classifier = "test-binder"
+        }
+    }
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'io.r2dbc:r2dbc-h2'
+    testImplementation group: 'com.h2database', name: 'h2', version: h2Version
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+/*
+avro {
+    enableDecimalLogicalType = true
+    outputCharacterEncoding = "UTF-8"
+}*/

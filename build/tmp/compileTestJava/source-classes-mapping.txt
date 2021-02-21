@@ -1,0 +1,58 @@
+br/gabrielsmartins/smartpayment/frauds/application/service/SaveFraudServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.application.service.SaveFraudServiceTest
+br/gabrielsmartins/smartpayment/frauds/application/service/NotifyOrderValidationServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.application.service.NotifyOrderValidationServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/web/adapter/in/mapper/FraudWebMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudWebMapperTest
+br/gabrielsmartins/smartpayment/frauds/application/support/FraudSupport.java
+ br.gabrielsmartins.smartpayment.frauds.application.support.FraudSupport
+br/gabrielsmartins/smartpayment/frauds/application/service/ProcessOrderServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.application.service.ProcessOrderServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/in/OrderConsumerTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.OrderConsumerTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/out/mapper/PaymentMethodProducerMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.out.mapper.PaymentMethodProducerMapperTest
+br/gabrielsmartins/smartpayment/frauds/SmartPaymentFraudApplicationTest.java
+ br.gabrielsmartins.smartpayment.frauds.SmartPaymentFraudApplicationTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/mapper/PaymentMethodPersistenceMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper.PaymentMethodPersistenceMapperTest
+br/gabrielsmartins/smartpayment/frauds/application/service/SearchFraudServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.application.service.SearchFraudServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/web/adapter/in/FraudControllerTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.FraudControllerTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/in/mapper/PaymentMethodConsumerMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper.PaymentMethodConsumerMapperTest
+br/gabrielsmartins/smartpayment/frauds/application/service/ValidateOrderServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.application.service.ValidateOrderServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/support/DatabaseConfigSupport.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.DatabaseConfigSupport
+br/gabrielsmartins/smartpayment/frauds/application/support/OrderSupport.java
+ br.gabrielsmartins.smartpayment.frauds.application.support.OrderSupport
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/out/mapper/OrderItemProducerMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.out.mapper.OrderItemProducerMapperTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/out/mapper/OrderProducerMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.out.mapper.OrderProducerMapperTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/in/mapper/OrderItemConsumerMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper.OrderItemConsumerMapperTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/out/OrderProducerTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.out.OrderProducerTest
+br/gabrielsmartins/smartpayment/frauds/application/service/CreateFraudServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.application.service.CreateFraudServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/messaging/adapter/in/mapper/OrderConsumerMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper.OrderConsumerMapperTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/adapter/SaveFraudPersistenceAdapterTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.adapter.SaveFraudPersistenceAdapterTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/support/FraudEntitySupport.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/adapter/SearchFraudPersistenceAdapterTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.adapter.SearchFraudPersistenceAdapterTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/service/SearchFraudPersistenceServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.service.SearchFraudPersistenceServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/mapper/FraudPersistenceMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper.FraudPersistenceMapperTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/service/SaveOrderPersistenceServiceTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.service.SaveOrderPersistenceServiceTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/mapper/FraudItemPersistenceMapperTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper.FraudItemPersistenceMapperTest
+br/gabrielsmartins/smartpayment/frauds/adapters/persistence/repository/FraudRepositoryTest.java
+ br.gabrielsmartins.smartpayment.frauds.adapters.persistence.repository.FraudRepositoryTest

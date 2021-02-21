@@ -1,0 +1,6 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost/smartpaymentfrauddb
+    username: root
+    password: root
+    initialization-mode: never
