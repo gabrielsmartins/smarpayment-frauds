@@ -14,6 +14,7 @@ import java.util.function.BiFunction;
 @RequiredArgsConstructor
 public class FraudEntityMapper implements BiFunction<Row, Object, FraudEntity> {
 
+    private final FraudItemEntityMapper fraudItemEntityMapper;
     private final PaymentMethodDataMapper paymentMethodDataMapper;
 
     @Override
@@ -24,6 +25,7 @@ public class FraudEntityMapper implements BiFunction<Row, Object, FraudEntity> {
         LocalDateTime createdAt = row.get("created_at", LocalDateTime.class);
         BigDecimal totalAmount = row.get("total_amount", BigDecimal.class);
         BigDecimal totalDiscount = row.get("total_discount", BigDecimal.class);
+        //fraudItemEntityMapper.apply(row,o);
         //Map<PaymentMethodData, BigDecimal> paymentMethods = paymentMethodDataMapper.apply(row, o);
         return FraudEntity.builder()
                            .withId(fraudId)

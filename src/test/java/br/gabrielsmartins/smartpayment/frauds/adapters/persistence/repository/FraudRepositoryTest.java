@@ -5,6 +5,7 @@ import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudE
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudItemEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudEntityMapper;
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudItemEntityMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.PaymentMethodDataMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.DatabaseConfigSupport;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +27,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @DataR2dbcTest
-@Import({
+@Import({FraudRepository.class,
+        FraudItemRepository.class,
         DatabaseConfiguration.class,
         DatabaseConfigSupport.class,
         FraudEntityMapper.class,
+        FraudItemEntityMapper.class,
         PaymentMethodDataMapper.class,
         PaymentMethodRepository.class,
         PaymentMethodDataMapper.class})
@@ -51,16 +54,14 @@ public class FraudRepositoryTest {
         this.fraudEntity = defaultFraud()
                 .withId(null)
                 .build();
-        fraudEntity.addPaymentMethod(PaymentMethodData.CREDIT_CARD, BigDecimal.TEN);
-        this.itemEntity =FraudItemEntity.builder()
-                                        .withId(null)
+        this.itemEntity = FraudItemEntity.builder()
                                         .withId(FraudItemEntity.FraudItemEntityId.builder()
                                                 .withProductId(UUID.randomUUID())
                                                 .build())
                                         .withQuantity(1)
-                                        .withAmount(BigDecimal.ONE)
+                                        .withAmount(BigDecimal.valueOf(1500.50))
                                         .build();
-        fraudEntity.addItem(itemEntity);
+        this.fraudEntity.addItem(itemEntity);
         this.fraudEntity.addPaymentMethod(PaymentMethodData.CASH, BigDecimal.valueOf(1000));
         this.fraudEntity.addPaymentMethod(PaymentMethodData.CREDIT_CARD, BigDecimal.valueOf(500));
     }

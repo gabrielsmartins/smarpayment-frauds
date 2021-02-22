@@ -28,7 +28,6 @@ public class FraudEntity {
     @Setter(AccessLevel.NONE)
     private final Map<PaymentMethodData, BigDecimal> paymentMethods = new LinkedHashMap<>();
 
-
     public List<FraudItemEntity> getItems() {
         return Collections.unmodifiableList(items);
     }
