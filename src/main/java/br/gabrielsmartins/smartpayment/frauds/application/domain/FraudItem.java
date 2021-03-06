@@ -12,7 +12,7 @@ import java.util.UUID;
 public class FraudItem {
 
     private FraudItemId id;
-    private Integer quantity;
+    private Long quantity;
     private BigDecimal amount;
 
     @Data

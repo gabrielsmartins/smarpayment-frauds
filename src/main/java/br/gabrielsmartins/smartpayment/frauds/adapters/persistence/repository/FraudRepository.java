@@ -2,7 +2,7 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.repository;
 
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudEntity;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudEntityMapper;
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudEntityRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -21,32 +21,37 @@ import java.util.UUID;
 public class FraudRepository {
 
     private final DatabaseClient client;
-    private final FraudEntityMapper mapper;
+    private final FraudEntityRowMapper mapper;
     private final FraudItemRepository fraudItemRepository;
     private final PaymentMethodRepository paymentMethodRepository;
 
     @Transactional
     public Mono<FraudEntity> save(FraudEntity fraudEntity) {
-        UUID id = this.client.sql("INSERT INTO tbl_fraud (order_id,customer_id,created_at,total_amount,total_discount) " +
-                                 "VALUES (:pOrderId,:pCustomerId,:pCreatedAt,:pTotalAmount,:pTotalDiscount)")
-                                 .bind("pOrderId", fraudEntity.getOrderId())
-                                 .bind("pCustomerId", fraudEntity.getCustomerId())
-                                 .bind("pCreatedAt", fraudEntity.getCreatedAt())
-                                 .bind("pTotalAmount", fraudEntity.getTotalAmount())
-                                 .bind("pTotalDiscount", fraudEntity.getTotalDiscount())
-                                 .filter((statement, executeFunction) -> statement.returnGeneratedValues("fraud_id").execute())
-                                 .fetch()
-                                 .one()
-                                 .map(r -> (UUID) r.get("fraud_id"))
-                                 .block();
-        fraudEntity.setId(id);
-        this.fraudItemRepository.saveAll(fraudEntity.getItems()).subscribe();
-        this.paymentMethodRepository.saveAll(fraudEntity.getId(), fraudEntity.getPaymentMethods()).subscribe();
-        return Mono.just(fraudEntity);
+        return this.client.sql("INSERT INTO tbl_fraud (order_id,customer_id,created_at,total_amount,total_discount) " +
+                               "VALUES (:pOrderId,:pCustomerId,:pCreatedAt,:pTotalAmount,:pTotalDiscount)")
+                               .bind("pOrderId", fraudEntity.getOrderId())
+                               .bind("pCustomerId", fraudEntity.getCustomerId())
+                               .bind("pCreatedAt", fraudEntity.getCreatedAt())
+                               .bind("pTotalAmount", fraudEntity.getTotalAmount())
+                               .bind("pTotalDiscount", fraudEntity.getTotalDiscount())
+                               .filter((statement, executeFunction) -> statement.returnGeneratedValues("fraud_id").execute())
+                               .fetch()
+                               .one()
+                               .map(r ->  r.get("fraud_id"))
+                               .cast(UUID.class)
+                               .flatMap(id -> {
+                                    fraudEntity.setId(id);
+                                    return Mono.zip(Mono.just(id), Mono.just(fraudEntity))
+                                               .flatMap(objects -> this.paymentMethodRepository.saveAll(objects.getT1(), fraudEntity.getPaymentMethods()).then())
+                                               .then(fraudItemRepository.saveAll(fraudEntity.getItems()).then())
+                                               .thenReturn(fraudEntity);
+                               })
+                               .doOnSuccess(f -> log.info("Fraud saved successfully: {}", f))
+                               .doOnError(e -> log.error("Error saving fraud", e));
     }
 
     public Mono<FraudEntity> findById(UUID id) {
-        return this.client.sql("SELECT DISTINCT F.*,FI.*,PMF.* FROM tbl_fraud F " +
+         return this.client.sql("SELECT DISTINCT F.*,FI.*,PMF.* FROM tbl_fraud F " +
                                 "LEFT JOIN tbl_fraud_items FI " +
                                 "ON F.fraud_id = FI.fraud_id " +
                                 "LEFT JOIN tbl_fraud_payment_methods PMF " +

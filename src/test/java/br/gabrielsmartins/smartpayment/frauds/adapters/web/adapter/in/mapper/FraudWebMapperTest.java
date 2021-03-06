@@ -35,7 +35,7 @@ public class FraudWebMapperTest {
                                .withId(FraudItem.FraudItemId.builder()
                                        .withProductId(UUID.randomUUID())
                                        .build())
-                               .withQuantity(1)
+                               .withQuantity(1L)
                                .withAmount(BigDecimal.valueOf(100.00))
                                .build());
 

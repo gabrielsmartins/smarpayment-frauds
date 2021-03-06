@@ -4,3 +4,8 @@ spring:
     username: sa
     password:
     initialization-mode: never
+
+logging:
+  level:
+    io.r2dbc.h2.QUERY: DEBUG # for queries
+    io.r2dbc.h2.PARAM: DEBUG # for parameters

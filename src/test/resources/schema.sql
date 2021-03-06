@@ -24,14 +24,14 @@ create table tbl_fraud_items(
 );
 
 create table tbl_payment_methods (
-  payment_method_id smallint not null,
+  payment_method_id int not null,
   payment_method_description varchar(256) not null,
   constraint PK_tbl_payment_methods primary key(payment_method_id)
 );
 
 create table tbl_fraud_payment_methods(
    fraud_id UUID not null,
-   payment_method_id smallint not null,
+   payment_method_id int not null,
    payment_method_amount decimal(17,2) not null,
    constraint PK_tbl_fraud_payment_methods primary key(fraud_id, payment_method_id),
    constraint FK_tbl_fraud_payment_methods_tbl_fraud_items foreign key (fraud_id) references tbl_fraud(fraud_id),

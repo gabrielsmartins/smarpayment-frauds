@@ -4,9 +4,9 @@ import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.config.Databa
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudItemEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudEntityMapper;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudItemEntityMapper;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.PaymentMethodDataMapper;
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudEntityRowMapper;
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudItemEntityRowMapper;
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.PaymentMethodDataRowMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.DatabaseConfigSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,11 +31,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
         FraudItemRepository.class,
         DatabaseConfiguration.class,
         DatabaseConfigSupport.class,
-        FraudEntityMapper.class,
-        FraudItemEntityMapper.class,
-        PaymentMethodDataMapper.class,
+        FraudEntityRowMapper.class,
+        FraudItemEntityRowMapper.class,
+        PaymentMethodDataRowMapper.class,
         PaymentMethodRepository.class,
-        PaymentMethodDataMapper.class})
+        PaymentMethodDataRowMapper.class})
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class FraudRepositoryTest {
@@ -58,7 +58,7 @@ public class FraudRepositoryTest {
                                         .withId(FraudItemEntity.FraudItemEntityId.builder()
                                                 .withProductId(UUID.randomUUID())
                                                 .build())
-                                        .withQuantity(1)
+                                        .withQuantity(1L)
                                         .withAmount(BigDecimal.valueOf(1500.50))
                                         .build();
         this.fraudEntity.addItem(itemEntity);
@@ -79,50 +79,46 @@ public class FraudRepositoryTest {
     @Test
     @DisplayName("Given Id When Exists Then Return Fraud")
     public void givenIdWhenExistsThenReturnFraud(){
-        this.repository.save(fraudEntity).subscribe();
+        this.repository.save(fraudEntity).block();
         this.repository.findById(fraudEntity.getId())
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
     @DisplayName("Given Frauds When Exists Then Return Fraud List")
     public void givenFraudsWhenExistsThenReturnFraudList(){
-        this.repository.save(fraudEntity).subscribe();
+        this.repository.save(fraudEntity).block();
         this.repository.findAll()
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
     @DisplayName("Given Order Id When Exists Then Return Fraud List")
     public void givenOrderIdWhenExistsThenReturnFraudList(){
-        this.repository.save(fraudEntity).subscribe();
+        this.repository.save(fraudEntity).block();
         this.repository.findByOrderId(fraudEntity.getOrderId())
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
     @DisplayName("Given Customer Id When Exists Then Return Fraud List")
     public void givenCustomerIdWhenExistsThenReturnFraudList(){
-        this.repository.save(fraudEntity).subscribe();
+        this.repository.save(fraudEntity).block();
         this.repository.findByCustomerId(fraudEntity.getCustomerId(), PageRequest.of(0,30))
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
     @DisplayName("Given Product Id When Exists Then Return Fraud List")
     public void givenProductIdWhenExistsThenReturnFraudList(){
-        this.repository.save(fraudEntity).subscribe();
+        this.repository.save(fraudEntity).block();
         this.repository.findByProductId(itemEntity.getId().getProductId(), PageRequest.of(0, 30))
                        .as(StepVerifier::create)
-                       .expectNextCount(1)
+                       .assertNext(f -> assertThat(f).isNotNull())
                        .verifyComplete();
     }
 
@@ -130,11 +126,10 @@ public class FraudRepositoryTest {
     @Test
     @DisplayName("Given Interval When Exists Then Return Fraud List")
     public void givenIntervalWhenExistsThenReturnFraudList(){
-        this.repository.save(fraudEntity).subscribe();
+        this.repository.save(fraudEntity).block();
         this.repository.findByInterval(fraudEntity.getCreatedAt().minusDays(1), fraudEntity.getCreatedAt().plusDays(1), PageRequest.of(0,30))
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
 }

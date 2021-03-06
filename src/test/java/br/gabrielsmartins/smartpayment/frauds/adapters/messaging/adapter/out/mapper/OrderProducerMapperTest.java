@@ -36,7 +36,7 @@ public class OrderProducerMapperTest {
                                         .withProductId(UUID.randomUUID())
                                         .build())
                                         .withAmount(BigDecimal.TEN)
-                                .withQuantity(1)
+                                .withQuantity(1L)
                                 .build());
         order.addPaymentMethod(PaymentMethod.CASH, BigDecimal.TEN);
 
