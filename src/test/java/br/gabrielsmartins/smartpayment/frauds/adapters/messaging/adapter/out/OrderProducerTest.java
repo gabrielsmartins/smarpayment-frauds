@@ -12,7 +12,6 @@ import org.springframework.cloud.stream.binder.test.OutputDestination;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.test.StepVerifier;
@@ -27,7 +26,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @Import(TestChannelBinderConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS, hierarchyMode = DirtiesContext.HierarchyMode.EXHAUSTIVE)
 public class OrderProducerTest {
 
     @Autowired
@@ -56,7 +54,7 @@ public class OrderProducerTest {
                      .expectNextCount(1)
                      .verifyComplete();
 
-        Message<byte[]> message = outputDestination.receive();
+        Message<byte[]> message = outputDestination.receive(1000);
 
         assertThat(message).isNotNull();
     }

@@ -17,7 +17,6 @@ import org.springframework.cloud.stream.binder.test.TestChannelBinderConfigurati
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
@@ -33,8 +32,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@Import(TestChannelBinderConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS, hierarchyMode = DirtiesContext.HierarchyMode.EXHAUSTIVE)
+@Import({TestChannelBinderConfiguration.class})
 public class OrderConsumerTest {
 
     @Autowired
@@ -50,6 +48,7 @@ public class OrderConsumerTest {
     @Test
     @DisplayName("Given Message When Consume Then Return Processed Order")
     public void givenMessageWhenConsumeThenReturnProcessedOrder(){
+
 
         OrderRequested orderRequested = OrderRequested.newBuilder()
                                                         .setId(12345L)
