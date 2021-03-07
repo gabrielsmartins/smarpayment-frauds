@@ -15,7 +15,7 @@ public class FraudItemEntityRowMapper extends RowMapper<FraudItemEntity> {
     @Override
     public FraudItemEntity apply(Row row, Object o) {
         UUID productId = parse(row,"product_id", UUID.class);
-        Long quantity = parse(row, "item_quantity", Long.class);
+        Integer quantity = parse(row, "item_quantity", Integer.class);
         BigDecimal amount = parse(row,"item_amount", BigDecimal.class);
         return FraudItemEntity.builder()
                                .withId(FraudItemEntity.FraudItemEntityId.builder()

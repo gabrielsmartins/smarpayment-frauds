@@ -12,6 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +22,6 @@ public class FraudItemRepository {
     private final DatabaseClient client;
     private final FraudItemEntityRowMapper mapper;
 
-    @Transactional
     public Mono<FraudItemEntity> save(FraudItemEntity fraudItemEntity) {
         return this.client.sql("INSERT INTO tbl_fraud_items(fraud_id,product_id,item_quantity,item_amount) " +
                                 "VALUES(:pFraudId,:pProductId,:pItemQuantity,:pItemAmount)")
@@ -31,7 +31,9 @@ public class FraudItemRepository {
                                 .bind("pItemAmount", fraudItemEntity.getAmount())
                                 .fetch()
                                 .one()
-                                .then(Mono.just(fraudItemEntity));
+                                .thenReturn(fraudItemEntity)
+                                .doOnSuccess(fi -> log.info("Fraud item saved successfully: {}", fi))
+                                .doOnError(e -> log.error("Error saving fraud item", e));
     }
 
 
@@ -50,6 +52,24 @@ public class FraudItemRepository {
            });
            return Flux.from(statement.execute()).flatMap(result -> result.map(this.mapper::apply));
        });
+    }
+
+    public Flux<FraudItemEntity> findByFraudId(UUID fraudId){
+        return this.client.sql("SELECT * FROM tbl_fraud_items " +
+                               "WHERE fraud_id = :pFraud_id")
+                              .bind("pFraud_id", fraudId)
+                              .map(mapper::apply)
+                              .all();
+    }
+
+    public Mono<FraudItemEntity> findByFraudIdAndProductId(UUID fraudId, UUID productId){
+        return this.client.sql("SELECT * FROM tbl_fraud_items " +
+                               "WHERE fraud_id = :pFraud_id " +
+                               "AND productId = :pProductId")
+                               .bind("pFraud_id", fraudId)
+                               .bind("pProductId", productId)
+                               .map(mapper::apply)
+                               .one();
     }
 
 }

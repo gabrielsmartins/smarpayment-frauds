@@ -1,5 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper;
 
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.PaymentMethodEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.enums.PaymentMethod;
 import org.springframework.stereotype.Component;
@@ -10,11 +11,16 @@ import java.util.Map;
 @Component
 public class PaymentMethodPersistenceMapper {
 
-    public Map.Entry<PaymentMethodData, BigDecimal> mapToEntity(Map.Entry<PaymentMethod, BigDecimal> paymentMethod){
-        return Map.entry(PaymentMethodData.fromEnum(paymentMethod.getKey()), paymentMethod.getValue());
+    public PaymentMethodEntity mapToEntity(Map.Entry<PaymentMethod, BigDecimal> paymentMethod){
+        return PaymentMethodEntity.builder()
+                                  .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
+                                           .withPaymentMethod(PaymentMethodData.fromEnum(paymentMethod.getKey()))
+                                          .build())
+                                  .withAmount(paymentMethod.getValue())
+                                  .build();
     }
 
-    public Map.Entry<PaymentMethod, BigDecimal> mapToDomain(Map.Entry<PaymentMethodData, BigDecimal> paymentMethod){
-        return Map.entry(paymentMethod.getKey().getPaymentMethod(), paymentMethod.getValue());
+    public Map.Entry<PaymentMethod, BigDecimal> mapToDomain(PaymentMethodEntity paymentMethodEntity){
+        return Map.entry(paymentMethodEntity.getId().getPaymentMethod().getPaymentMethod(), paymentMethodEntity.getAmount());
     }
 }

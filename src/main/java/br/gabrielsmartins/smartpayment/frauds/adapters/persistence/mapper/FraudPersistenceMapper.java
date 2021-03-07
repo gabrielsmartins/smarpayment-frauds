@@ -24,7 +24,7 @@ public class FraudPersistenceMapper {
              .entrySet()
              .stream()
              .map(paymentMethodPersistenceMapper::mapToEntity)
-             .forEach(entry -> fraudEntity.addPaymentMethod(entry.getKey(), entry.getValue()));
+             .forEach(fraudEntity::addPaymentMethod);
         return fraudEntity;
     }
 
@@ -36,7 +36,6 @@ public class FraudPersistenceMapper {
                 .map(itemPersistenceMapper::mapToDomain)
                 .forEach(fraud::addItem);
         fraudEntity.getPaymentMethods()
-                .entrySet()
                 .stream()
                 .map(paymentMethodPersistenceMapper::mapToDomain)
                 .forEach(entry -> fraud.addPaymentMethod(entry.getKey(), entry.getValue()));

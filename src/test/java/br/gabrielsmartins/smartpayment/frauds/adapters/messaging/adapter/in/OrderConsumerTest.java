@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @Import(TestChannelBinderConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS, hierarchyMode = DirtiesContext.HierarchyMode.EXHAUSTIVE)
 public class OrderConsumerTest {
 
     @Autowired

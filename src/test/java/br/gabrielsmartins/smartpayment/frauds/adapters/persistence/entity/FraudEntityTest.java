@@ -27,7 +27,15 @@ public class FraudEntityTest {
     @DisplayName("Given Payment Set When Add Then Return PaymentSets Size")
     public void givenPaymentSetWhenAddThenReturnPaymentSetsSize(){
         FraudEntity fraudEntity = new FraudEntity();
-        Integer paymentSetsSize = fraudEntity.addPaymentMethod(PaymentMethodData.CASH, BigDecimal.valueOf(500));
+
+        PaymentMethodEntity paymentMethod = PaymentMethodEntity.builder()
+                .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
+                        .withPaymentMethod(PaymentMethodData.CASH)
+                        .build())
+                .withAmount(BigDecimal.valueOf(1500))
+                .build();
+
+        Integer paymentSetsSize = fraudEntity.addPaymentMethod(paymentMethod);
         assertThat(paymentSetsSize).isEqualTo(1);
     }
 }

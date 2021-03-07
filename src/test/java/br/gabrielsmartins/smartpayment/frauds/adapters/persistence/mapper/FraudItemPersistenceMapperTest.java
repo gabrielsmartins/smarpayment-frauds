@@ -27,7 +27,7 @@ public class FraudItemPersistenceMapperTest {
                 .withId(FraudItem.FraudItemId.builder()
                         .withProductId(UUID.randomUUID())
                         .build())
-                .withQuantity(1L)
+                .withQuantity(1)
                 .withAmount(BigDecimal.valueOf(500))
                 .build();
 
@@ -47,7 +47,7 @@ public class FraudItemPersistenceMapperTest {
                 .withId(FraudItemEntity.FraudItemEntityId.builder()
                         .withProductId(UUID.randomUUID())
                         .build())
-                .withQuantity(1L)
+                .withQuantity(1)
                 .withAmount(BigDecimal.valueOf(500))
                 .build();
 

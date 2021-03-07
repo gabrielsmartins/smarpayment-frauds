@@ -1,18 +1,18 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity;
 
+
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @Builder(setterPrefix = "with")
 @AllArgsConstructor
 @NoArgsConstructor
-public class FraudItemEntity {
+public class PaymentMethodEntity {
 
-    private FraudItemEntityId id;
-    private Integer quantity;
+    private PaymentMethodEntityId id;
     private BigDecimal amount;
 
     @Data
@@ -20,10 +20,10 @@ public class FraudItemEntity {
     @AllArgsConstructor
     @NoArgsConstructor
     @ToString(exclude = "fraud")
-    public static class FraudItemEntityId {
+    public static class PaymentMethodEntityId{
 
         private FraudEntity fraud;
-        private UUID productId;
-    }
+        private PaymentMethodData paymentMethod;
 
+    }
 }

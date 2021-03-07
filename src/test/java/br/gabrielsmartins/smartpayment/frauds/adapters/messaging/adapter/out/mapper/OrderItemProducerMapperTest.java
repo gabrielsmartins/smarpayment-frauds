@@ -28,7 +28,7 @@ public class OrderItemProducerMapperTest {
                                         .withId(OrderItem.OrderItemId.builder()
                                                 .withProductId(UUID.randomUUID())
                                                 .build())
-                                        .withQuantity(1L)
+                                        .withQuantity(1)
                                         .withAmount(BigDecimal.valueOf(1500))
                                         .build();
 

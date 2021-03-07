@@ -12,7 +12,7 @@ import java.util.UUID;
 public class OrderItem {
 
     private OrderItemId id;
-    private Long quantity;
+    private Integer quantity;
     private BigDecimal amount;
 
     @Data

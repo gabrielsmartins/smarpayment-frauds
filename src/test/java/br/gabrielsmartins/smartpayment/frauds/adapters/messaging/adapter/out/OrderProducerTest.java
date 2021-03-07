@@ -27,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @Import(TestChannelBinderConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS, hierarchyMode = DirtiesContext.HierarchyMode.EXHAUSTIVE)
 public class OrderProducerTest {
 
     @Autowired
@@ -47,7 +47,7 @@ public class OrderProducerTest {
                         .withProductId(UUID.randomUUID())
                         .build())
                 .withAmount(BigDecimal.TEN)
-                .withQuantity(1L)
+                .withQuantity(1)
                 .build());
         order.addPaymentMethod(PaymentMethod.CASH, BigDecimal.TEN);
 

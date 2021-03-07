@@ -8,7 +8,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS, hierarchyMode = DirtiesContext.HierarchyMode.EXHAUSTIVE)
 public class SmartPaymentFraudApplicationTest {
 
     @Test

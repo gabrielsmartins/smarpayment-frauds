@@ -1,5 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper;
 
+import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.PaymentMethodEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.enums.PaymentMethod;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,21 +25,26 @@ public class PaymentMethodPersistenceMapperTest {
     @DisplayName("Given Payment Method Entity When Map Payment Method")
     public void givenPaymentMethodEntityWhenMapPaymentMethod(){
         Map.Entry<PaymentMethod, BigDecimal> paymentMethod = Map.entry(PaymentMethod.CASH, BigDecimal.valueOf(1500.00));
-        Map.Entry<PaymentMethodData, BigDecimal> paymentMethodEntity = this.mapper.mapToEntity(paymentMethod);
+        PaymentMethodEntity paymentMethodEntity = this.mapper.mapToEntity(paymentMethod);
 
         assertThat(paymentMethodEntity).isNotNull();
-        assertThat(paymentMethodEntity.getKey().getPaymentMethod()).isEqualTo(paymentMethod.getKey());
-        assertThat(paymentMethodEntity.getValue()).isEqualTo(paymentMethod.getValue());
+        assertThat(paymentMethodEntity.getId().getPaymentMethod().getPaymentMethod()).isEqualTo(paymentMethod.getKey());
+        assertThat(paymentMethodEntity.getAmount()).isEqualTo(paymentMethod.getValue());
     }
 
     @Test
     @DisplayName("Given Payment Method When Map Payment Method Entity")
     public void givenPaymentMethodWhenMapPaymentMethodEntity(){
-        Map.Entry<PaymentMethodData, BigDecimal> paymentMethodEntity = Map.entry(PaymentMethodData.CASH, BigDecimal.valueOf(1500.00));
+        PaymentMethodEntity paymentMethodEntity = PaymentMethodEntity.builder()
+                                                                    .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
+                                                                            .withPaymentMethod(PaymentMethodData.CASH)
+                                                                            .build())
+                                                                      .withAmount(BigDecimal.valueOf(1500))
+                                                                     .build();
         Map.Entry<PaymentMethod, BigDecimal> paymentMethod = this.mapper.mapToDomain(paymentMethodEntity);
 
         assertThat(paymentMethod).isNotNull();
-        assertThat(paymentMethod.getKey()).isEqualTo(paymentMethodEntity.getKey().getPaymentMethod());
-        assertThat(paymentMethod.getValue()).isEqualTo(paymentMethodEntity.getValue());
+        assertThat(paymentMethod.getKey()).isEqualTo(paymentMethodEntity.getId().getPaymentMethod().getPaymentMethod());
+        assertThat(paymentMethod.getValue()).isEqualTo(paymentMethodEntity.getAmount());
     }
 }

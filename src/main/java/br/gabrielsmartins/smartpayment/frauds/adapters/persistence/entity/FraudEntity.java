@@ -1,11 +1,13 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity;
 
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder(setterPrefix = "with")
@@ -26,14 +28,14 @@ public class FraudEntity {
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    private final Map<PaymentMethodData, BigDecimal> paymentMethods = new LinkedHashMap<>();
+    private final List<PaymentMethodEntity> paymentMethods = new LinkedList<>();
 
     public List<FraudItemEntity> getItems() {
         return Collections.unmodifiableList(items);
     }
 
-    public Map<PaymentMethodData, BigDecimal> getPaymentMethods() {
-        return Collections.unmodifiableMap(paymentMethods);
+    public List<PaymentMethodEntity> getPaymentMethods() {
+        return Collections.unmodifiableList(paymentMethods);
     }
 
     public Integer addItem(FraudItemEntity item){
@@ -42,8 +44,9 @@ public class FraudEntity {
         return items.size();
     }
 
-    public Integer addPaymentMethod(PaymentMethodData paymentMethod, BigDecimal amount){
-        this.paymentMethods.put(paymentMethod, amount);
+    public Integer addPaymentMethod(PaymentMethodEntity paymentMethod){
+        paymentMethod.getId().setFraud(this);
+        this.paymentMethods.add(paymentMethod);
         return paymentMethods.size();
     }
 }
