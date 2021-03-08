@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -20,12 +20,12 @@ spring:
           schema.registry.url: http://localhost:8081
           consumer-properties:
             key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-            value.deserializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             schema.registry.url: ${spring.cloud.stream.kafka.binder.schema.registry.url}
             specific.avro.reader: true
           producer-properties:
             key.serializer: org.apache.kafka.common.serialization.StringSerializer
-            value.serializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
             schema.registry.url: ${spring.cloud.stream.kafka.binder.schema.registry.url}
         bindings:
           consume-in-0:

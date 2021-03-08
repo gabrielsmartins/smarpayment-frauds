@@ -42,7 +42,7 @@ public class FraudPersistenceMapperTest {
     @Test
     @DisplayName("Given Fraud Entity When Map Then Return Fraud")
     public void givenFraudEntityWhenMapThenReturnFraud(){
-        FraudEntity fraudEntity = FraudEntitySupport.defaultFraud().build();
+        FraudEntity fraudEntity = FraudEntitySupport.defaultFraudEntity().build();
 
         Fraud fraud = this.mapper.mapToDomain(fraudEntity);
 

@@ -28,9 +28,9 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(SpringExtension.class)
-@WebFluxTest(controllers = FraudController.class)
+@WebFluxTest(controllers = SearchFraudController.class)
 @Import({FraudWebMapper.class, FraudItemWebMapper.class})
-public class FraudControllerTest {
+public class SearchFraudControllerTest {
 
     @MockBean
     private SearchFraudUseCase useCase;
@@ -47,7 +47,7 @@ public class FraudControllerTest {
         when(useCase.findAll()).thenReturn(Flux.just(fraud));
 
         webClient.get()
-                .uri("/frauds")
+                .uri("/frauds-v1/frauds")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
@@ -65,7 +65,7 @@ public class FraudControllerTest {
         when(useCase.findById(any(UUID.class))).thenReturn(Mono.just(fraud));
 
         webClient.get()
-                 .uri("/frauds/{id}", fraud.getId())
+                 .uri("/frauds-v1/frauds/{id}", fraud.getId())
                  .exchange()
                  .expectStatus().isOk()
                  .expectBody()
@@ -83,7 +83,7 @@ public class FraudControllerTest {
         when(useCase.findByOrderId(anyLong())).thenReturn(Mono.just(fraud));
 
         webClient.get()
-                 .uri(uriBuilder -> uriBuilder.path("/frauds")
+                 .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
                          .queryParam("order_id", fraud.getOrderId())
                      .build())
                  .exchange()
@@ -103,7 +103,7 @@ public class FraudControllerTest {
         when(useCase.findByCustomerId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(fraud));
 
         webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/frauds")
+                .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
                         .queryParam("customer_id", fraud.getCustomerId())
                         .build())
                 .exchange()
@@ -123,7 +123,7 @@ public class FraudControllerTest {
         when(useCase.findByProductId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(fraud));
 
         webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/frauds")
+                .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
                         .queryParam("product_id", fraud.getCustomerId())
                         .build())
                 .exchange()
@@ -143,7 +143,7 @@ public class FraudControllerTest {
         when(useCase.findByInterval(any(LocalDateTime.class),any(LocalDateTime.class), any(Pageable.class))).thenReturn(Flux.just(fraud));
 
         webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/frauds")
+                .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
                         .queryParam("start_date_time", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .queryParam("end_date_time", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
                         .build())

@@ -13,9 +13,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraud;
-import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudItemEntitySupport.defaultFraudItem;
-import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.PaymentMethodEntitySupport.defaultPaymentMethod;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraudEntity;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudItemEntitySupport.defaultFraudItemEntity;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.PaymentMethodEntitySupport.defaultPaymentMethodEntity;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
@@ -39,10 +39,10 @@ public class SaveOrderPersistenceServiceTest {
     @Test
     @DisplayName("Given Fraud When Save Then Return Saved Fraud")
     public void givenFraudWhenSaveThenReturnSavedFraud(){
-        FraudEntity fraudEntity = defaultFraud().build();
+        FraudEntity fraudEntity = defaultFraudEntity().build();
 
-        PaymentMethodEntity paymentMethodEntity = defaultPaymentMethod().build();
-        FraudItemEntity fraudItemEntity = defaultFraudItem().build();
+        PaymentMethodEntity paymentMethodEntity = defaultPaymentMethodEntity().build();
+        FraudItemEntity fraudItemEntity = defaultFraudItemEntity().build();
 
         fraudEntity.addPaymentMethod(paymentMethodEntity);
         fraudEntity.addItem(fraudItemEntity);

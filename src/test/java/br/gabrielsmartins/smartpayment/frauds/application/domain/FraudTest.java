@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static br.gabrielsmartins.smartpayment.frauds.application.support.FraudItemSupport.defaultFraudItem;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class FraudTest {
@@ -14,10 +15,7 @@ public class FraudTest {
     @DisplayName("Given Item When Add Then Return Items Size")
     public void givenItemWhenAddThenReturnItemsSize(){
         Fraud fraud = new Fraud();
-        FraudItem item = FraudItem.builder()
-                                    .withId(FraudItem.FraudItemId.builder()
-                                            .build())
-                                    .build();
+        FraudItem item = defaultFraudItem().build();
         Integer itemSize = fraud.addItem(item);
         assertThat(itemSize).isEqualTo(1);
         assertThat(item.getId().getFraud()).isNotNull();

@@ -16,7 +16,7 @@ import reactor.test.StepVerifier;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraud;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraudEntity;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -39,7 +39,7 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Id When Exists Then Return Fraud")
     public void givenIdWhenExistsThenReturnFraud(){
 
-        when(this.service.findById(any(UUID.class))).thenReturn(Mono.just(defaultFraud().build()));
+        when(this.service.findById(any(UUID.class))).thenReturn(Mono.just(defaultFraudEntity().build()));
 
         this.adapter.findById(UUID.randomUUID())
                 .as(StepVerifier::create)
@@ -53,7 +53,7 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Frauds When Exists Then Return Fraud List")
     public void givenFraudsWhenExistsThenReturnFraudList(){
 
-        when(this.service.findAll()).thenReturn(Flux.just(defaultFraud().build()));
+        when(this.service.findAll()).thenReturn(Flux.just(defaultFraudEntity().build()));
 
         this.adapter.findAll()
                 .as(StepVerifier::create)
@@ -67,7 +67,7 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Order Id When Exists Then Return Fraud List")
     public void givenOrderIdWhenExistsThenReturnFraudList(){
 
-        when(this.service.findByOrderId(anyLong())).thenReturn(Mono.just(defaultFraud().build()));
+        when(this.service.findByOrderId(anyLong())).thenReturn(Mono.just(defaultFraudEntity().build()));
 
         this.adapter.findByOrderId(12345L)
                 .as(StepVerifier::create)
@@ -81,7 +81,7 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Customer Id When Exists Then Return Fraud List")
     public void givenCustomerIdWhenExistsThenReturnFraudList(){
 
-        when(this.service.findByCustomerId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(defaultFraud().build()));
+        when(this.service.findByCustomerId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(defaultFraudEntity().build()));
 
         this.adapter.findByCustomerId(UUID.randomUUID(), PageRequest.of(0,30))
                 .as(StepVerifier::create)
@@ -95,7 +95,7 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Product Id When Exists Then Return Fraud List")
     public void givenProductIdWhenExistsThenReturnFraudList(){
 
-        when(this.service.findByProductId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(defaultFraud().build()));
+        when(this.service.findByProductId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(defaultFraudEntity().build()));
 
         this.adapter.findByProductId(UUID.randomUUID(), PageRequest.of(0,30))
                 .as(StepVerifier::create)
@@ -110,7 +110,7 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Interval When Exists Then Return Fraud List")
     public void givenIntervalWhenExistsThenReturnFraudList(){
 
-        when(this.service.findByInterval(any(LocalDateTime.class), any(LocalDateTime.class), any(Pageable.class))).thenReturn(Flux.just(defaultFraud().build()));
+        when(this.service.findByInterval(any(LocalDateTime.class), any(LocalDateTime.class), any(Pageable.class))).thenReturn(Flux.just(defaultFraudEntity().build()));
 
         this.adapter.findByInterval(LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(0,30))
                 .as(StepVerifier::create)

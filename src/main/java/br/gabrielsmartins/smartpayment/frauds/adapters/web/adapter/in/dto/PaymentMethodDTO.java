@@ -1,5 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,21 +9,16 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @Builder(setterPrefix = "with")
 @AllArgsConstructor
 @NoArgsConstructor
-public class FraudItemDTO {
+public class PaymentMethodDTO {
 
-    @JsonProperty(value = "product_id", required = true)
+    @JsonProperty(value = "description", required = true)
     @NotNull
-    private UUID productId;
-
-    @JsonProperty(value = "quantity", required = true)
-    @NotNull
-    private Integer quantity;
+    private String paymentMethod;
 
     @JsonProperty(value = "amount", required = true)
     @NotNull

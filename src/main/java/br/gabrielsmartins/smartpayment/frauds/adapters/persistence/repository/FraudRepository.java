@@ -28,7 +28,7 @@ public class FraudRepository {
         return this.client.sql("INSERT INTO tbl_fraud (order_id,customer_id,created_at,total_amount,total_discount) " +
                                "VALUES (:pOrderId,:pCustomerId,:pCreatedAt,:pTotalAmount,:pTotalDiscount)")
                                .bind("pOrderId", fraudEntity.getOrderId())
-                               .bind("pCustomerId", fraudEntity.getCustomerId())
+                               .bind("pCustomerId", fraudEntity.getCustomerId().toString())
                                .bind("pCreatedAt", fraudEntity.getCreatedAt())
                                .bind("pTotalAmount", fraudEntity.getTotalAmount())
                                .bind("pTotalDiscount", fraudEntity.getTotalDiscount())
@@ -51,7 +51,7 @@ public class FraudRepository {
     public Mono<FraudEntity> findById(UUID id) {
          return this.client.sql("SELECT * FROM tbl_fraud " +
                                 "WHERE fraud_id = :pFraudId")
-                                .bind("pFraudId", id)
+                                .bind("pFraudId", id.toString())
                                 .map(mapper::apply)
                                 .one();
     }
@@ -85,7 +85,7 @@ public class FraudRepository {
     public Flux<FraudEntity> findByCustomerId(UUID customerId, Pageable pageable) {
         return this.client.sql("SELECT * FROM tbl_fraud " +
                                "WHERE customer_id = :pCustomerId")
-                          .bind("pCustomerId",customerId)
+                          .bind("pCustomerId",customerId.toString())
                           .map(mapper::apply)
                           .all();
     }

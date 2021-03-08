@@ -23,7 +23,7 @@ import reactor.test.StepVerifier;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraud;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraudEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
@@ -52,7 +52,7 @@ public class FraudRepositoryTest {
 
     @BeforeEach
     public void setup(){
-        this.fraudEntity = defaultFraud()
+        this.fraudEntity = defaultFraudEntity()
                 .withId(null)
                 .build();
         this.itemEntity = FraudItemEntity.builder()

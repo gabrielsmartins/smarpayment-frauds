@@ -9,8 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
+import static br.gabrielsmartins.smartpayment.frauds.application.support.FraudItemSupport.defaultFraudItem;
 import static br.gabrielsmartins.smartpayment.frauds.application.support.FraudSupport.defaultFraud;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -30,17 +30,10 @@ public class FraudWebMapperTest {
     @DisplayName("Given Fraud When Map Then Return Fraud DTO")
     public void givenFraudWhenMapThenReturnFraudDTO(){
         Fraud fraud = defaultFraud().build();
+        FraudItem fraudItem = defaultFraudItem().build();
 
-        fraud.addItem(FraudItem.builder()
-                               .withId(FraudItem.FraudItemId.builder()
-                                       .withProductId(UUID.randomUUID())
-                                       .build())
-                               .withQuantity(1)
-                               .withAmount(BigDecimal.valueOf(100.00))
-                               .build());
-
+        fraud.addItem(fraudItem);
         fraud.addPaymentMethod(PaymentMethod.CREDIT_CARD, BigDecimal.TEN);
-
 
         FraudDTO fraudDTO = this.mapper.mapToDTO(fraud);
 

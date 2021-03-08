@@ -11,7 +11,7 @@ public class PaymentMethodEntitySupport {
         super();
     }
 
-    public static PaymentMethodEntity.PaymentMethodEntityBuilder defaultPaymentMethod(){
+    public static PaymentMethodEntity.PaymentMethodEntityBuilder defaultPaymentMethodEntity(){
         return PaymentMethodEntity.builder()
                               .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
                                       .withPaymentMethod(PaymentMethodData.CASH)

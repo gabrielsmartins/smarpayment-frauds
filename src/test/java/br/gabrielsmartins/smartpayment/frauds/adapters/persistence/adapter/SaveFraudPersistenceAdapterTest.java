@@ -37,7 +37,7 @@ public class SaveFraudPersistenceAdapterTest {
     public void givenFraudWhenSaveThenReturnSavedFraud(){
         Fraud fraud = defaultFraud().build();
 
-        when(service.save(any(FraudEntity.class))).thenReturn(Mono.just(FraudEntitySupport.defaultFraud().build()));
+        when(service.save(any(FraudEntity.class))).thenReturn(Mono.just(FraudEntitySupport.defaultFraudEntity().build()));
 
         this.adapter.save(fraud)
                 .as(StepVerifier::create)

@@ -1,20 +1,19 @@
-package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support;
+package br.gabrielsmartins.smartpayment.frauds.adapters.web.support;
 
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudEntity;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudEntity.FraudEntityBuilder;
+import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.dto.FraudDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FraudEntitySupport {
+public class FraudDTOSupport {
 
-    private FraudEntitySupport(){
+    private FraudDTOSupport(){
         super();
     }
 
-    public static FraudEntityBuilder defaultFraudEntity(){
-        return FraudEntity.builder()
+    public static FraudDTO.FraudDTOBuilder defaultFraudDTO(){
+        return FraudDTO.builder()
                     .withCreatedAt(LocalDateTime.now())
                     .withTotalAmount(BigDecimal.valueOf(1500))
                     .withTotalDiscount(BigDecimal.valueOf(500))

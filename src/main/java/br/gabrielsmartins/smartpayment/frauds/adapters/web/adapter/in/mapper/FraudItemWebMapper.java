@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class FraudItemWebMapper {
 
+    public FraudItem mapToDomain(FraudItemDTO fraudItemDTO){
+        var mapper = new ModelMapper();
+        return mapper.map(fraudItemDTO, FraudItem.class);
+    }
+
     public FraudItemDTO mapToDTO(FraudItem fraudItem){
         var mapper = new ModelMapper();
         return mapper.map(fraudItem, FraudItemDTO.class);

@@ -11,7 +11,7 @@ public class FraudItemEntitySupport {
         super();
     }
 
-    public static FraudItemEntity.FraudItemEntityBuilder defaultFraudItem(){
+    public static FraudItemEntity.FraudItemEntityBuilder defaultFraudItemEntity(){
         return FraudItemEntity.builder()
                               .withId(FraudItemEntity.FraudItemEntityId.builder()
                                       .withProductId(UUID.randomUUID())

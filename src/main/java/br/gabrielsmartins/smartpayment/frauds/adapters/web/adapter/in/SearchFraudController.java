@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/frauds")
+@RequestMapping("/frauds-v1/frauds")
 @RequiredArgsConstructor
-public class FraudController {
+public class SearchFraudController {
 
     private final SearchFraudUseCase useCase;
     private final FraudWebMapper mapper;
