@@ -1,6 +1,9 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,22 +16,37 @@ import java.util.UUID;
 @Builder(setterPrefix = "with")
 @AllArgsConstructor
 @NoArgsConstructor
+@Document("frauds")
 public class FraudEntity {
 
-    private UUID id;
+    @Id
+    @Field("fraud_id")
+    private String id;
+
+    @Field("order_id")
     private Long orderId;
+
+    @Field("customer_id")
     private UUID customerId;
+
+    @Field("created_at")
     private LocalDateTime createdAt;
+
+    @Field("total_amount")
     private BigDecimal totalAmount;
+
+    @Field("total_discount")
     private BigDecimal totalDiscount;
 
+    @Field("items")
     @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private final List<FraudItemEntity> items = new LinkedList<>();
+    @Builder.Default
+    private List<FraudItemEntity> items = new LinkedList<>();
 
+    @Field("payment_methods")
     @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private final List<PaymentMethodEntity> paymentMethods = new LinkedList<>();
+    @Builder.Default
+    private List<PaymentMethodEntity> paymentMethods = new LinkedList<>();
 
     public List<FraudItemEntity> getItems() {
         return Collections.unmodifiableList(items);
@@ -39,13 +57,17 @@ public class FraudEntity {
     }
 
     public Integer addItem(FraudItemEntity item){
-        item.getId().setFraud(this);
+        if(this.items == null){
+            this.items = new LinkedList<>();
+        }
         this.items.add(item);
         return items.size();
     }
 
     public Integer addPaymentMethod(PaymentMethodEntity paymentMethod){
-        paymentMethod.getId().setFraud(this);
+        if(this.paymentMethods == null){
+            this.paymentMethods = new LinkedList<>();
+        }
         this.paymentMethods.add(paymentMethod);
         return paymentMethods.size();
     }

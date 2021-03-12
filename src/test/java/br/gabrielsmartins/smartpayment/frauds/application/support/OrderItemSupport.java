@@ -1,18 +1,18 @@
 package br.gabrielsmartins.smartpayment.frauds.application.support;
 
-import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudItem;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.OrderItem;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class FraudItemSupport {
+public class OrderItemSupport {
 
-    private FraudItemSupport(){
+    private OrderItemSupport(){
         super();
     }
 
-    public static FraudItem.FraudItemBuilder defaultFraudItem(){
-        return FraudItem.builder()
+    public static OrderItem.OrderItemBuilder defaultOrderItem(){
+        return OrderItem.builder()
                         .withProductId(UUID.randomUUID())
                         .withQuantity(1)
                         .withAmount(BigDecimal.valueOf(500));

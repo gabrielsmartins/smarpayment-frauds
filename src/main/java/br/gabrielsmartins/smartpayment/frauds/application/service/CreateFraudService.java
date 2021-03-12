@@ -47,9 +47,7 @@ public class CreateFraudService implements CreateFraudUseCase {
 
     private FraudItem mapToFraudItem(OrderItem orderItem){
         return FraudItem.builder()
-                .withId(FraudItem.FraudItemId.builder()
-                        .withProductId(orderItem.getId().getProductId())
-                        .build())
+                .withProductId(orderItem.getProductId())
                 .withQuantity(orderItem.getQuantity())
                 .withAmount(orderItem.getAmount())
                 .build();

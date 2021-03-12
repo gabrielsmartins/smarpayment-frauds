@@ -26,7 +26,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static br.gabrielsmartins.smartpayment.frauds.adapters.web.support.FraudDTOSupport.defaultFraudDTO;
 import static br.gabrielsmartins.smartpayment.frauds.adapters.web.support.FraudItemDTOSupport.defaultFraudItemDTO;
@@ -99,7 +98,7 @@ public class SaveFraudControllerTest {
         FraudItem fraudItem = defaultFraudItem().build();
         fraud.addItem(fraudItem);
 
-        when(searchFraudUseCase.findById(any(UUID.class))).thenReturn(Mono.just(fraud));
+        when(searchFraudUseCase.findById(anyString())).thenReturn(Mono.just(fraud));
         when(useCase.save(any(Fraud.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
 
         webClient.put()
@@ -111,7 +110,7 @@ public class SaveFraudControllerTest {
                  .expectBody()
                  .jsonPath("id").isEqualTo(fraud.getId().toString());
 
-        verify(this.searchFraudUseCase, times(1)).findById(any(UUID.class));
+        verify(this.searchFraudUseCase, times(1)).findById(anyString());
         verify(this.useCase, times(1)).save(any(Fraud.class));
     }
 

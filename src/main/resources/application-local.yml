@@ -1,7 +1,8 @@
-spring:
-  r2dbc:
-    url: r2dbc:h2:mem:///smartpaymentfrauddb?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
-    initialization-mode: always
-
+data:
+  mongodb:
+    database: frauddb
+    #authentication-database: admin
+    host: localhost
+    port: 27017
+    #password: root
+    #username: password

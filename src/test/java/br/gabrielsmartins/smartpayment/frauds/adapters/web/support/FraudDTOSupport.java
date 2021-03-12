@@ -19,6 +19,6 @@ public class FraudDTOSupport {
                     .withTotalDiscount(BigDecimal.valueOf(500))
                     .withCustomerId(UUID.randomUUID())
                     .withOrderId(12345L)
-                    .withId(UUID.randomUUID());
+                    .withId(UUID.randomUUID().toString());
     }
  }

@@ -26,8 +26,8 @@ public class FraudItemWebMapperTest {
         FraudItem fraudItem = this.mapper.mapToDomain(fraudItemDTO);
 
         assertThat(fraudItem).hasNoNullFieldsOrProperties();
-        assertThat(fraudItem.getId()).hasNoNullFieldsOrPropertiesExcept("fraud");
-        assertThat(fraudItem.getId().getProductId()).isEqualTo(fraudItemDTO.getProductId());
+        assertThat(fraudItem).hasNoNullFieldsOrPropertiesExcept("fraud");
+        assertThat(fraudItem.getProductId()).isEqualTo(fraudItemDTO.getProductId());
         assertThat(fraudItem.getAmount()).isEqualTo(fraudItemDTO.getAmount());
         assertThat(fraudItem.getQuantity()).isEqualTo(fraudItemDTO.getQuantity());
     }
@@ -39,7 +39,7 @@ public class FraudItemWebMapperTest {
         FraudItemDTO fraudItemDTO = this.mapper.mapToDTO(fraudItem);
 
         assertThat(fraudItemDTO).hasNoNullFieldsOrProperties();
-        assertThat(fraudItemDTO.getProductId()).isEqualTo(fraudItem.getId().getProductId());
+        assertThat(fraudItemDTO.getProductId()).isEqualTo(fraudItem.getProductId());
         assertThat(fraudItemDTO.getAmount()).isEqualTo(fraudItem.getAmount());
         assertThat(fraudItemDTO.getQuantity()).isEqualTo(fraudItem.getQuantity());
     }

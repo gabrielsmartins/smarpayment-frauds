@@ -39,14 +39,14 @@ public class SearchFraudPersistenceAdapterTest {
     @DisplayName("Given Id When Exists Then Return Fraud")
     public void givenIdWhenExistsThenReturnFraud(){
 
-        when(this.service.findById(any(UUID.class))).thenReturn(Mono.just(defaultFraudEntity().build()));
+        when(this.service.findById(anyString())).thenReturn(Mono.just(defaultFraudEntity().build()));
 
-        this.adapter.findById(UUID.randomUUID())
+        this.adapter.findById(UUID.randomUUID().toString())
                 .as(StepVerifier::create)
                 .expectNextCount(1)
                 .verifyComplete();
 
-        verify(this.service, times(1)).findById(any(UUID.class));
+        verify(this.service, times(1)).findById(anyString());
     }
 
     @Test

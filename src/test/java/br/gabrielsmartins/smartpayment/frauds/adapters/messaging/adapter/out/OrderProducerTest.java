@@ -1,7 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.out;
 
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.OrderItem;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.enums.PaymentMethod;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
+import static br.gabrielsmartins.smartpayment.frauds.application.support.OrderItemSupport.defaultOrderItem;
 import static br.gabrielsmartins.smartpayment.frauds.application.support.OrderSupport.defaultOrder;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -40,13 +39,7 @@ public class OrderProducerTest {
 
         Order order = defaultOrder().build();
 
-        order.addItem(OrderItem.builder()
-                .withId(OrderItem.OrderItemId.builder()
-                        .withProductId(UUID.randomUUID())
-                        .build())
-                .withAmount(BigDecimal.TEN)
-                .withQuantity(1)
-                .build());
+        order.addItem(defaultOrderItem().build());
         order.addPaymentMethod(PaymentMethod.CASH, BigDecimal.TEN);
 
         this.producer.notify(order)

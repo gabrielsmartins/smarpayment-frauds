@@ -29,7 +29,7 @@ public class SearchFraudController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<FraudDTO> findById(@PathVariable("id") UUID id){
+    public Mono<FraudDTO> findById(@PathVariable("id") String id){
         return this.useCase.findById(id).map(mapper::mapToDTO);
     }
 

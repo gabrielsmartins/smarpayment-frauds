@@ -2,7 +2,6 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.map
 
 import br.gabrielsmartins.schemas.order_requested.Item;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.OrderItem;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.OrderItem.OrderItemId;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -18,13 +17,10 @@ public class OrderItemConsumerMapper {
         mapper.addMappings(new PropertyMap<Item, OrderItem>() {
             @Override
             protected void configure() {
-               using((Converter<String, OrderItemId>) context -> {
-                   String source = context.getSource();
-                   return OrderItemId.builder()
-                                     .withProductId(source == null ? null : UUID.fromString(source))
-                                     .build();
-               })
-               .map(source.getProductId(), destination.getId());
+                using((Converter<String, UUID>) context -> {
+                    String source = context.getSource();
+                    return source == null ? null : UUID.fromString(source);
+                }).map(source.getProductId(), destination.getProductId());
             }
         });
         return mapper.map(item, OrderItem.class);

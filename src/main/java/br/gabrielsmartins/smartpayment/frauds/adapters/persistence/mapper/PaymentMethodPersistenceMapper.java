@@ -13,14 +13,12 @@ public class PaymentMethodPersistenceMapper {
 
     public PaymentMethodEntity mapToEntity(Map.Entry<PaymentMethod, BigDecimal> paymentMethod){
         return PaymentMethodEntity.builder()
-                                  .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
-                                           .withPaymentMethod(PaymentMethodData.fromEnum(paymentMethod.getKey()))
-                                          .build())
+                .withPaymentMethod(PaymentMethodData.fromEnum(paymentMethod.getKey()))
                                   .withAmount(paymentMethod.getValue())
                                   .build();
     }
 
     public Map.Entry<PaymentMethod, BigDecimal> mapToDomain(PaymentMethodEntity paymentMethodEntity){
-        return Map.entry(paymentMethodEntity.getId().getPaymentMethod().getPaymentMethod(), paymentMethodEntity.getAmount());
+        return Map.entry(paymentMethodEntity.getPaymentMethod().getPaymentMethod(), paymentMethodEntity.getAmount());
     }
 }

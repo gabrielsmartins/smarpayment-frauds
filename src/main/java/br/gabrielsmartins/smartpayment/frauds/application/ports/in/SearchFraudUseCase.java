@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface SearchFraudUseCase {
 
-    Mono<Fraud> findById(UUID id);
+    Mono<Fraud> findById(String id);
 
     Flux<Fraud> findAll();
 

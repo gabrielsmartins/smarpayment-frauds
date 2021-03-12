@@ -32,14 +32,14 @@ public class SearchFraudServiceTest {
     @DisplayName("Given Id When Exists Then Return Fraud")
     public void givenIdWhenExistsThenReturnFraud(){
 
-        when(this.port.findById(any(UUID.class))).thenReturn(Mono.just(defaultFraud().build()));
+        when(this.port.findById(anyString())).thenReturn(Mono.just(defaultFraud().build()));
 
-        this.service.findById(UUID.randomUUID())
+        this.service.findById(UUID.randomUUID().toString())
                     .as(StepVerifier::create)
                     .expectNextCount(1)
                     .verifyComplete();
 
-        verify(this.port, times(1)).findById(any(UUID.class));
+        verify(this.port, times(1)).findById(anyString());
     }
 
     @Test

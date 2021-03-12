@@ -13,7 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 public class Fraud {
 
-    private UUID id;
+    private String id;
     private Long orderId;
     private UUID customerId;
     private LocalDateTime createdAt;
@@ -38,7 +38,7 @@ public class Fraud {
     }
 
     public Integer addItem(FraudItem item){
-        item.getId().setFraud(this);
+        item.setFraud(this);
         this.items.add(item);
         return items.size();
     }

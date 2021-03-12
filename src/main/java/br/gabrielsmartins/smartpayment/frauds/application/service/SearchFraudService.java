@@ -19,7 +19,7 @@ public class SearchFraudService implements SearchFraudUseCase {
     private final SearchFraudPort port;
 
     @Override
-    public Mono<Fraud> findById(UUID id) {
+    public Mono<Fraud> findById(String id) {
         return this.port.findById(id);
     }
 

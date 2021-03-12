@@ -31,9 +31,8 @@ public class OrderItemConsumerMapperTest {
 
         OrderItem orderItem = this.mapper.mapToDomain(message);
 
-        assertThat(orderItem).hasNoNullFieldsOrProperties();
-        assertThat(orderItem.getId()).hasNoNullFieldsOrPropertiesExcept("order");
-        assertThat(orderItem.getId().getProductId().toString()).isEqualTo(message.getProductId());
+        assertThat(orderItem).hasNoNullFieldsOrPropertiesExcept("order");
+        assertThat(orderItem.getProductId().toString()).isEqualTo(message.getProductId());
         assertThat(orderItem.getQuantity()).isEqualTo(message.getQuantity());
         assertThat(orderItem.getAmount()).isEqualTo(message.getAmount());
     }

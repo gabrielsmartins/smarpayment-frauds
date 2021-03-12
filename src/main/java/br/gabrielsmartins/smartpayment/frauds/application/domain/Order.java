@@ -36,7 +36,7 @@ public class Order {
     }
 
     public Integer addItem(OrderItem item){
-        item.getId().setOrder(this);
+        item.setOrder(this);
         this.items.add(item);
         return this.items.size();
     }

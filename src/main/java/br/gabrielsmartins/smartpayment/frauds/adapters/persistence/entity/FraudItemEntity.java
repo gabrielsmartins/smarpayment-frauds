@@ -1,6 +1,10 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,19 +15,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FraudItemEntity {
 
-    private FraudItemEntityId id;
+    @Field("product_id")
+    private UUID productId;
+
+    @Field("quantity")
     private Integer quantity;
+
+    @Field("item_amount")
     private BigDecimal amount;
 
-    @Data
-    @Builder(setterPrefix = "with")
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @ToString(exclude = "fraud")
-    public static class FraudItemEntityId {
-
-        private FraudEntity fraud;
-        private UUID productId;
-    }
 
 }

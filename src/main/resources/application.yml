@@ -3,6 +3,9 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
+  data:
+    mongodb:
+      database: frauddb
   cloud:
     stream:
       function:
@@ -37,13 +40,3 @@ spring:
             binder: kafka
             destination: orders-topic
             content-type: application/*+avro
-
-logging:
-  level:
-    org:
-      springframework:
-        r2dbc: DEBUG
-      hibernate:
-        type:
-          descriptor:
-            sql: trace

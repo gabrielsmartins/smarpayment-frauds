@@ -21,7 +21,7 @@ public class SearchFraudPersistenceAdapter implements SearchFraudPort {
     private final FraudPersistenceMapper mapper;
 
     @Override
-    public Mono<Fraud> findById(UUID id) {
+    public Mono<Fraud> findById(String id) {
         return this.service.findById(id)
                            .map(mapper::mapToDomain);
     }

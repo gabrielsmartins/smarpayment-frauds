@@ -11,19 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FraudItem {
 
-    private FraudItemId id;
+    private Fraud fraud;
+    private UUID productId;
     private Integer quantity;
     private BigDecimal amount;
-
-    @Data
-    @Builder(setterPrefix = "with")
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @ToString(exclude = {"fraud"})
-    public static class FraudItemId {
-        private Fraud fraud;
-        private UUID productId;
-    }
-
 
 }

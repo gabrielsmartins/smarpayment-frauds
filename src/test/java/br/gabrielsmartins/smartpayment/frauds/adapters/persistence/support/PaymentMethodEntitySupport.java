@@ -13,9 +13,7 @@ public class PaymentMethodEntitySupport {
 
     public static PaymentMethodEntity.PaymentMethodEntityBuilder defaultPaymentMethodEntity(){
         return PaymentMethodEntity.builder()
-                              .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
-                                      .withPaymentMethod(PaymentMethodData.CASH)
-                                      .build())
-                              .withAmount(BigDecimal.valueOf(500));
+                .withPaymentMethod(PaymentMethodData.CASH)
+                                   .withAmount(BigDecimal.valueOf(500));
     }
 }

@@ -18,7 +18,7 @@ public class FraudTest {
         FraudItem item = defaultFraudItem().build();
         Integer itemSize = fraud.addItem(item);
         assertThat(itemSize).isEqualTo(1);
-        assertThat(item.getId().getFraud()).isNotNull();
+        assertThat(item.getFraud()).isNotNull();
     }
 
     @Test

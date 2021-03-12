@@ -13,9 +13,7 @@ public class FraudItemEntitySupport {
 
     public static FraudItemEntity.FraudItemEntityBuilder defaultFraudItemEntity(){
         return FraudItemEntity.builder()
-                              .withId(FraudItemEntity.FraudItemEntityId.builder()
-                                      .withProductId(UUID.randomUUID())
-                                      .build())
+                              .withProductId(UUID.randomUUID())
                               .withQuantity(1)
                               .withAmount(BigDecimal.valueOf(500));
     }

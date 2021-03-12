@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/frauds-v1/frauds")
@@ -46,7 +45,7 @@ public class SaveFraudController {
      */
     @PutMapping(value = {"/{id}"}, consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Mono<FraudDTO> update(@PathVariable("id") UUID id, @RequestBody @Valid FraudDTO fraudDTO){
+    public Mono<FraudDTO> update(@PathVariable("id") String id, @RequestBody @Valid FraudDTO fraudDTO){
         return searchFraudUseCase.findById(id)
                                   .flatMap(existingFraud -> {
                                       Fraud fraud = this.mapper.mapToDomain(fraudDTO);

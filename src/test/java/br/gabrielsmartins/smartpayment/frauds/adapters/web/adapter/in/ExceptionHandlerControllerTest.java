@@ -26,7 +26,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static br.gabrielsmartins.smartpayment.frauds.adapters.web.support.FraudDTOSupport.defaultFraudDTO;
 import static br.gabrielsmartins.smartpayment.frauds.adapters.web.support.FraudItemDTOSupport.defaultFraudItemDTO;
@@ -96,7 +95,7 @@ public class ExceptionHandlerControllerTest {
         FraudItem fraudItem = defaultFraudItem().build();
         fraud.addItem(fraudItem);
 
-        when(searchFraudUseCase.findById(any(UUID.class))).thenReturn(Mono.empty());
+        when(searchFraudUseCase.findById(anyString())).thenReturn(Mono.empty());
 
         webClient.put()
                 .uri("/frauds-v1/frauds/{id}", fraudDTO.getId())
@@ -107,7 +106,7 @@ public class ExceptionHandlerControllerTest {
                 .expectBody()
                 .jsonPath("message").isNotEmpty();
 
-        verify(this.searchFraudUseCase, times(1)).findById(any(UUID.class));
+        verify(this.searchFraudUseCase, times(1)).findById(anyString());
         verify(this.useCase, never()).save(any(Fraud.class));
     }
 
@@ -125,7 +124,7 @@ public class ExceptionHandlerControllerTest {
         FraudItem fraudItem = defaultFraudItem().build();
         fraud.addItem(fraudItem);
 
-        when(searchFraudUseCase.findById(any(UUID.class))).thenAnswer(invocation -> {
+        when(searchFraudUseCase.findById(anyString())).thenAnswer(invocation -> {
             throw new RuntimeException("Error");
         });
 

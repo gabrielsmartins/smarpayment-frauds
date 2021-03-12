@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface ISearchFraudPersistenceService {
 
-    Mono<FraudEntity> findById(UUID id);
+    Mono<FraudEntity> findById(String id);
 
     Flux<FraudEntity> findAll();
 

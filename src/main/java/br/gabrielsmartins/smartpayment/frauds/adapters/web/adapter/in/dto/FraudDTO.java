@@ -21,7 +21,7 @@ import java.util.UUID;
 public class FraudDTO {
 
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
-    private UUID id;
+    private String id;
 
     @JsonProperty(value = "order_id", required = true)
     @NotNull

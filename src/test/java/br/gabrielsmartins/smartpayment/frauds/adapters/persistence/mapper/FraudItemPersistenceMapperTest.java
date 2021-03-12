@@ -24,18 +24,15 @@ public class FraudItemPersistenceMapperTest {
     @DisplayName("Given Fraud Item When Map Then Return Fraud Item Entity")
     public void givenFraudWhenMapThenReturnFraudEntity(){
         FraudItem fraudItem = FraudItem.builder()
-                .withId(FraudItem.FraudItemId.builder()
-                        .withProductId(UUID.randomUUID())
-                        .build())
+                .withProductId(UUID.randomUUID())
                 .withQuantity(1)
                 .withAmount(BigDecimal.valueOf(500))
                 .build();
 
         FraudItemEntity fraudItemEntity = this.mapper.mapToEntity(fraudItem);
 
-        assertThat(fraudItemEntity).hasNoNullFieldsOrProperties();
-        assertThat(fraudItemEntity.getId()).hasNoNullFieldsOrPropertiesExcept("fraud");
-        assertThat(fraudItemEntity.getId().getProductId()).isEqualTo(fraudItem.getId().getProductId());
+        assertThat(fraudItemEntity).hasNoNullFieldsOrPropertiesExcept("fraud");
+        assertThat(fraudItemEntity.getProductId()).isEqualTo(fraudItem.getProductId());
         assertThat(fraudItemEntity.getQuantity()).isEqualTo(fraudItem.getQuantity());
         assertThat(fraudItemEntity.getAmount()).isEqualTo(fraudItem.getAmount());
     }
@@ -44,18 +41,15 @@ public class FraudItemPersistenceMapperTest {
     @DisplayName("Given Fraud Item Entity When Map Then Return Fraud Item")
     public void givenFraudItemEntityWhenMapThenReturnFraud(){
         FraudItemEntity fraudItemEntity = FraudItemEntity.builder()
-                .withId(FraudItemEntity.FraudItemEntityId.builder()
-                        .withProductId(UUID.randomUUID())
-                        .build())
-                .withQuantity(1)
-                .withAmount(BigDecimal.valueOf(500))
-                .build();
+                                                        .withProductId(UUID.randomUUID())
+                                                        .withQuantity(1)
+                                                        .withAmount(BigDecimal.valueOf(500))
+                                                        .build();
 
         FraudItem fraudItem = this.mapper.mapToDomain(fraudItemEntity);
 
-        assertThat(fraudItem).hasNoNullFieldsOrProperties();
-        assertThat(fraudItem.getId()).hasNoNullFieldsOrPropertiesExcept("fraud");
-        assertThat(fraudItem.getId().getProductId()).isEqualTo(fraudItemEntity.getId().getProductId());
+        assertThat(fraudItem).hasNoNullFieldsOrPropertiesExcept("fraud");
+        assertThat(fraudItem.getProductId()).isEqualTo(fraudItemEntity.getProductId());
         assertThat(fraudItem.getQuantity()).isEqualTo(fraudItemEntity.getQuantity());
         assertThat(fraudItem.getAmount()).isEqualTo(fraudItemEntity.getAmount());
     }

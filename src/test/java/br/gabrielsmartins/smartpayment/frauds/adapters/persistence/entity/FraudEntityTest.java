@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudItemEntitySupport.defaultFraudItemEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class FraudEntityTest {
@@ -14,13 +15,9 @@ public class FraudEntityTest {
     @DisplayName("Given Item When Add Then Return Items Size")
     public void givenItemWhenAddThenReturnItemsSize(){
         FraudEntity fraudEntity = new FraudEntity();
-        FraudItemEntity itemEntity = FraudItemEntity.builder()
-                                                     .withId(FraudItemEntity.FraudItemEntityId.builder()
-                                                             .build())
-                                                     .build();
+        FraudItemEntity itemEntity = defaultFraudItemEntity().build();
         Integer itemSize = fraudEntity.addItem(itemEntity);
         assertThat(itemSize).isEqualTo(1);
-        assertThat(itemEntity.getId().getFraud()).isNotNull();
     }
 
     @Test
@@ -29,11 +26,9 @@ public class FraudEntityTest {
         FraudEntity fraudEntity = new FraudEntity();
 
         PaymentMethodEntity paymentMethod = PaymentMethodEntity.builder()
-                .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
-                        .withPaymentMethod(PaymentMethodData.CASH)
-                        .build())
-                .withAmount(BigDecimal.valueOf(1500))
-                .build();
+                                                                .withPaymentMethod(PaymentMethodData.CASH)
+                                                                .withAmount(BigDecimal.valueOf(1500))
+                                                                .build();
 
         Integer paymentSetsSize = fraudEntity.addPaymentMethod(paymentMethod);
         assertThat(paymentSetsSize).isEqualTo(1);

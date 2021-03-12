@@ -25,9 +25,7 @@ public class OrderItemProducerMapperTest {
     public void givenOrderItemWhenMapThenReturnMessage(){
 
         OrderItem orderItem = OrderItem.builder()
-                                        .withId(OrderItem.OrderItemId.builder()
-                                                .withProductId(UUID.randomUUID())
-                                                .build())
+                                        .withProductId(UUID.randomUUID())
                                         .withQuantity(1)
                                         .withAmount(BigDecimal.valueOf(1500))
                                         .build();
@@ -35,7 +33,7 @@ public class OrderItemProducerMapperTest {
         Item item = this.mapper.mapToMessage(orderItem);
 
         assertThat(item).hasNoNullFieldsOrProperties();
-        assertThat(item.getProductId()).isEqualTo(orderItem.getId().getProductId().toString());
+        assertThat(item.getProductId()).isEqualTo(orderItem.getProductId().toString());
         assertThat(item.getAmount()).isEqualTo(orderItem.getAmount());
         assertThat(item.getQuantity()).isEqualTo(orderItem.getQuantity().intValue());
     }

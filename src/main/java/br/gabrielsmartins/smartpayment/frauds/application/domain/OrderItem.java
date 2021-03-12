@@ -11,18 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class OrderItem {
 
-    private OrderItemId id;
+    private Order order;
+    private UUID productId;
     private Integer quantity;
     private BigDecimal amount;
-
-    @Data
-    @Builder(setterPrefix = "with")
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString(exclude = {"order"})
-    public static class OrderItemId {
-        private Order order;
-        private UUID productId;
-    }
 
 }

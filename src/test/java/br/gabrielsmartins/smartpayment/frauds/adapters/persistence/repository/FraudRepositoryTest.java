@@ -5,47 +5,33 @@ import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudE
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudItemEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.PaymentMethodEntity;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudEntityRowMapper;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.FraudItemEntityRowMapper;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.mapper.PaymentMethodDataRowMapper;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.DatabaseConfigSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraudEntity;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudItemEntitySupport.defaultFraudItemEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
-@DataR2dbcTest
-@Import({FraudRepository.class,
-        FraudItemRepository.class,
-        DatabaseConfiguration.class,
-        DatabaseConfigSupport.class,
-        FraudEntityRowMapper.class,
-        FraudItemEntityRowMapper.class,
-        PaymentMethodDataRowMapper.class,
-        PaymentMethodRepository.class,
-        PaymentMethodDataRowMapper.class})
+@ExtendWith(SpringExtension.class)
+@DataMongoTest
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@Import(DatabaseConfiguration.class)
 public class FraudRepositoryTest {
 
     @Autowired
     private FraudRepository repository;
-
-    @Autowired
-    private FraudItemRepository fraudItemRepository;
 
     private FraudEntity fraudEntity;
     private FraudItemEntity itemEntity;
@@ -55,26 +41,16 @@ public class FraudRepositoryTest {
         this.fraudEntity = defaultFraudEntity()
                 .withId(null)
                 .build();
-        this.itemEntity = FraudItemEntity.builder()
-                                        .withId(FraudItemEntity.FraudItemEntityId.builder()
-                                                .withProductId(UUID.randomUUID())
-                                                .build())
-                                        .withQuantity(1)
-                                        .withAmount(BigDecimal.valueOf(1500.50))
-                                        .build();
+        this.itemEntity = defaultFraudItemEntity().build();
         this.fraudEntity.addItem(itemEntity);
 
         PaymentMethodEntity paymentMethod1 = PaymentMethodEntity.builder()
-                                                                .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
-                                                                         .withPaymentMethod(PaymentMethodData.CASH)
-                                                                        .build())
+                                                                .withPaymentMethod(PaymentMethodData.CASH)
                                                                 .withAmount(BigDecimal.valueOf(1500))
                                                                 .build();
 
         PaymentMethodEntity paymentMethod2 = PaymentMethodEntity.builder()
-                                                                .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
-                                                                        .withPaymentMethod(PaymentMethodData.CREDIT_CARD)
-                                                                        .build())
+                                                                .withPaymentMethod(PaymentMethodData.CREDIT_CARD)
                                                                 .withAmount(BigDecimal.valueOf(500))
                                                                 .build();
 
@@ -98,8 +74,7 @@ public class FraudRepositoryTest {
         this.repository.save(fraudEntity).block();
         this.repository.findById(fraudEntity.getId())
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
@@ -108,8 +83,8 @@ public class FraudRepositoryTest {
         this.repository.save(fraudEntity).block();
         this.repository.findAll()
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .expectNextCount(1)
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
@@ -118,8 +93,7 @@ public class FraudRepositoryTest {
         this.repository.save(fraudEntity).block();
         this.repository.findByOrderId(fraudEntity.getOrderId())
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
     @Test
@@ -136,10 +110,9 @@ public class FraudRepositoryTest {
     @DisplayName("Given Product Id When Exists Then Return Fraud List")
     public void givenProductIdWhenExistsThenReturnFraudList(){
         this.repository.save(fraudEntity).block();
-        this.repository.findByProductId(itemEntity.getId().getProductId(), PageRequest.of(0, 30))
+        this.repository.findByProductId(itemEntity.getProductId(), PageRequest.of(0, 30))
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
 
@@ -149,8 +122,7 @@ public class FraudRepositoryTest {
         this.repository.save(fraudEntity).block();
         this.repository.findByInterval(fraudEntity.getCreatedAt().minusDays(1), fraudEntity.getCreatedAt().plusDays(1), PageRequest.of(0,30))
                        .as(StepVerifier::create)
-                       .assertNext(f -> assertThat(f).isNotNull())
-                       .verifyComplete();
+                       .assertNext(f -> assertThat(f).isNotNull());
     }
 
 }

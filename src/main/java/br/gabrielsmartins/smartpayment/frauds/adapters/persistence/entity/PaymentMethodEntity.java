@@ -2,7 +2,11 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity;
 
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 
@@ -12,18 +16,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PaymentMethodEntity {
 
-    private PaymentMethodEntityId id;
+    @Field("payment_type")
+    private PaymentMethodData paymentMethod;
+
+    @Field("payment_amount")
     private BigDecimal amount;
 
-    @Data
-    @Builder(setterPrefix = "with")
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @ToString(exclude = "fraud")
-    public static class PaymentMethodEntityId{
-
-        private FraudEntity fraud;
-        private PaymentMethodData paymentMethod;
-
-    }
 }

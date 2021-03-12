@@ -28,7 +28,7 @@ public class PaymentMethodPersistenceMapperTest {
         PaymentMethodEntity paymentMethodEntity = this.mapper.mapToEntity(paymentMethod);
 
         assertThat(paymentMethodEntity).isNotNull();
-        assertThat(paymentMethodEntity.getId().getPaymentMethod().getPaymentMethod()).isEqualTo(paymentMethod.getKey());
+        assertThat(paymentMethodEntity.getPaymentMethod().getPaymentMethod()).isEqualTo(paymentMethod.getKey());
         assertThat(paymentMethodEntity.getAmount()).isEqualTo(paymentMethod.getValue());
     }
 
@@ -36,15 +36,13 @@ public class PaymentMethodPersistenceMapperTest {
     @DisplayName("Given Payment Method When Map Payment Method Entity")
     public void givenPaymentMethodWhenMapPaymentMethodEntity(){
         PaymentMethodEntity paymentMethodEntity = PaymentMethodEntity.builder()
-                                                                    .withId(PaymentMethodEntity.PaymentMethodEntityId.builder()
-                                                                            .withPaymentMethod(PaymentMethodData.CASH)
-                                                                            .build())
+                                                                     .withPaymentMethod(PaymentMethodData.CASH)
                                                                       .withAmount(BigDecimal.valueOf(1500))
                                                                      .build();
         Map.Entry<PaymentMethod, BigDecimal> paymentMethod = this.mapper.mapToDomain(paymentMethodEntity);
 
         assertThat(paymentMethod).isNotNull();
-        assertThat(paymentMethod.getKey()).isEqualTo(paymentMethodEntity.getId().getPaymentMethod().getPaymentMethod());
+        assertThat(paymentMethod.getKey()).isEqualTo(paymentMethodEntity.getPaymentMethod().getPaymentMethod());
         assertThat(paymentMethod.getValue()).isEqualTo(paymentMethodEntity.getAmount());
     }
 }

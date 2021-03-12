@@ -62,7 +62,7 @@ public class SearchFraudControllerTest {
 
         Fraud fraud = defaultFraud().build();
 
-        when(useCase.findById(any(UUID.class))).thenReturn(Mono.just(fraud));
+        when(useCase.findById(anyString())).thenReturn(Mono.just(fraud));
 
         webClient.get()
                  .uri("/frauds-v1/frauds/{id}", fraud.getId())
@@ -71,7 +71,7 @@ public class SearchFraudControllerTest {
                  .expectBody()
                  .jsonPath("id", fraud.getId());
 
-        verify(this.useCase, times(1)).findById(any(UUID.class));
+        verify(this.useCase, times(1)).findById(anyString());
     }
 
     @Test
