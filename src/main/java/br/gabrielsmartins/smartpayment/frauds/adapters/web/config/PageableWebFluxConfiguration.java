@@ -1,4 +1,4 @@
-package br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.config;
+package br.gabrielsmartins.smartpayment.frauds.adapters.web.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolver;
