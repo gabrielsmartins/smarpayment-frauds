@@ -17,10 +17,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.test.StepVerifier;
 
-import java.math.BigDecimal;
-
 import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport.defaultFraudEntity;
 import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudItemEntitySupport.defaultFraudItemEntity;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.PaymentMethodEntitySupport.defaultPaymentMethodEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
@@ -28,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @DataMongoTest
 @ActiveProfiles("test")
 @Import(DatabaseConfiguration.class)
-public class FraudRepositoryTest {
+public class FraudAnalysisRepositoryTest {
 
     @Autowired
     private FraudRepository repository;
@@ -44,15 +43,11 @@ public class FraudRepositoryTest {
         this.itemEntity = defaultFraudItemEntity().build();
         this.fraudEntity.addItem(itemEntity);
 
-        PaymentMethodEntity paymentMethod1 = PaymentMethodEntity.builder()
-                                                                .withPaymentMethod(PaymentMethodData.CASH)
-                                                                .withAmount(BigDecimal.valueOf(1500))
-                                                                .build();
+        PaymentMethodEntity paymentMethod1 = defaultPaymentMethodEntity().withPaymentMethod(PaymentMethodData.CASH)
+                                                                         .build();
 
-        PaymentMethodEntity paymentMethod2 = PaymentMethodEntity.builder()
-                                                                .withPaymentMethod(PaymentMethodData.CREDIT_CARD)
-                                                                .withAmount(BigDecimal.valueOf(500))
-                                                                .build();
+        PaymentMethodEntity paymentMethod2 = defaultPaymentMethodEntity().withPaymentMethod(PaymentMethodData.CREDIT_CARD)
+                                                                         .build();
 
         this.fraudEntity.addPaymentMethod(paymentMethod1);
         this.fraudEntity.addPaymentMethod(paymentMethod2);

@@ -1,7 +1,7 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper;
 
-import br.gabrielsmartins.schemas.order_requested.PaymentMethod;
-import br.gabrielsmartins.schemas.order_requested.PaymentType;
+import br.gabrielsmartins.schemas.order_received.PaymentMethod;
+import br.gabrielsmartins.schemas.order_received.PaymentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

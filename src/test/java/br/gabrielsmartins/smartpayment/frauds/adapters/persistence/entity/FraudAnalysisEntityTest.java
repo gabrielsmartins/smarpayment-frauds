@@ -1,15 +1,13 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity;
 
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
 import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudItemEntitySupport.defaultFraudItemEntity;
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.PaymentMethodEntitySupport.defaultPaymentMethodEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class FraudEntityTest {
+public class FraudAnalysisEntityTest {
 
     @Test
     @DisplayName("Given Item When Add Then Return Items Size")
@@ -25,10 +23,7 @@ public class FraudEntityTest {
     public void givenPaymentSetWhenAddThenReturnPaymentSetsSize(){
         FraudEntity fraudEntity = new FraudEntity();
 
-        PaymentMethodEntity paymentMethod = PaymentMethodEntity.builder()
-                                                                .withPaymentMethod(PaymentMethodData.CASH)
-                                                                .withAmount(BigDecimal.valueOf(1500))
-                                                                .build();
+        PaymentMethodEntity paymentMethod = defaultPaymentMethodEntity().build();
 
         Integer paymentSetsSize = fraudEntity.addPaymentMethod(paymentMethod);
         assertThat(paymentSetsSize).isEqualTo(1);

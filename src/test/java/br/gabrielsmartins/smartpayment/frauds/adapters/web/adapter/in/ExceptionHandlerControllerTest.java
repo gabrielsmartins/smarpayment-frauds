@@ -3,8 +3,8 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.dto.FraudDTO;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudItemWebMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudWebMapper;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudItem;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysisItem;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.enums.PaymentMethod;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SaveFraudUseCase;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SearchFraudUseCase;
@@ -65,11 +65,11 @@ public class ExceptionHandlerControllerTest {
 
         String body = mapper.writeValueAsString(fraudDTO);
 
-        Fraud fraudMock = defaultFraud().build();
-        fraudMock.addItem(defaultFraudItem().build());
-        fraudMock.addPaymentMethod(PaymentMethod.CASH, BigDecimal.valueOf(1500));
+        FraudAnalysis fraudAnalysisMock = defaultFraud().build();
+        fraudAnalysisMock.addItem(defaultFraudItem().build());
+        fraudAnalysisMock.addPaymentMethod(PaymentMethod.CASH, BigDecimal.valueOf(1500));
 
-        when(useCase.save(any(Fraud.class))).thenReturn(Mono.just(fraudMock));
+        when(useCase.save(any(FraudAnalysis.class))).thenReturn(Mono.just(fraudAnalysisMock));
 
         webClient.post()
                 .uri("/frauds-v1/frauds")
@@ -91,9 +91,9 @@ public class ExceptionHandlerControllerTest {
 
         String body = mapper.writeValueAsString(fraudDTO);
 
-        Fraud fraud = defaultFraud().build();
-        FraudItem fraudItem = defaultFraudItem().build();
-        fraud.addItem(fraudItem);
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
+        FraudAnalysisItem fraudAnalysisItem = defaultFraudItem().build();
+        fraudAnalysis.addItem(fraudAnalysisItem);
 
         when(searchFraudUseCase.findById(anyString())).thenReturn(Mono.empty());
 
@@ -107,7 +107,7 @@ public class ExceptionHandlerControllerTest {
                 .jsonPath("message").isNotEmpty();
 
         verify(this.searchFraudUseCase, times(1)).findById(anyString());
-        verify(this.useCase, never()).save(any(Fraud.class));
+        verify(this.useCase, never()).save(any(FraudAnalysis.class));
     }
 
     @Test
@@ -120,9 +120,9 @@ public class ExceptionHandlerControllerTest {
 
         String body = mapper.writeValueAsString(fraudDTO);
 
-        Fraud fraud = defaultFraud().build();
-        FraudItem fraudItem = defaultFraudItem().build();
-        fraud.addItem(fraudItem);
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
+        FraudAnalysisItem fraudAnalysisItem = defaultFraudItem().build();
+        fraudAnalysis.addItem(fraudAnalysisItem);
 
         when(searchFraudUseCase.findById(anyString())).thenAnswer(invocation -> {
             throw new RuntimeException("Error");

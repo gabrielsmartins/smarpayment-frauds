@@ -1,9 +1,9 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper;
 
-import br.gabrielsmartins.schemas.order_requested.Item;
-import br.gabrielsmartins.schemas.order_requested.OrderRequested;
-import br.gabrielsmartins.schemas.order_requested.PaymentMethod;
-import br.gabrielsmartins.schemas.order_requested.PaymentType;
+import br.gabrielsmartins.schemas.order_received.Item;
+import br.gabrielsmartins.schemas.order_received.OrderReceived;
+import br.gabrielsmartins.schemas.order_received.PaymentMethod;
+import br.gabrielsmartins.schemas.order_received.PaymentType;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ public class OrderConsumerMapperTest {
     @Test
     @DisplayName("Given Message When Map Then Return Order")
     public void givenMessageWhenMapThenReturnOrder(){
-        var message = OrderRequested.newBuilder()
+        var message = OrderReceived.newBuilder()
                                                    .setId(12345L)
                                                    .setCustomerId(UUID.randomUUID().toString())
                                                    .setCreatedAt(LocalDateTime.now())

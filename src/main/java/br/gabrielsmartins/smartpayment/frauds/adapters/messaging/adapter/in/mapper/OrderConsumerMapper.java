@@ -1,6 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper;
 
-import br.gabrielsmartins.schemas.order_requested.OrderRequested;
+import br.gabrielsmartins.schemas.order_received.OrderReceived;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -17,9 +17,9 @@ public class OrderConsumerMapper {
     private final OrderItemConsumerMapper itemConsumerMapper;
     private final PaymentMethodConsumerMapper paymentMethodConsumerMapper;
 
-    public Order mapToDomain(OrderRequested message){
+    public Order mapToDomain(OrderReceived message){
         var mapper = new ModelMapper();
-        mapper.addMappings(new PropertyMap<OrderRequested, Order>() {
+        mapper.addMappings(new PropertyMap<OrderReceived, Order>() {
             @Override
             protected void configure() {
                 using((Converter<String, UUID>) context -> {

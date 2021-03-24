@@ -11,7 +11,7 @@ import java.util.*;
 @Builder(setterPrefix = "with")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fraud {
+public class FraudAnalysis {
 
     private String id;
     private Long orderId;
@@ -19,17 +19,18 @@ public class Fraud {
     private LocalDateTime createdAt;
     private BigDecimal totalAmount;
     private BigDecimal totalDiscount;
+    private boolean fraud;
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    private final List<FraudItem> items = new LinkedList<>();
+    private final List<FraudAnalysisItem> items = new LinkedList<>();
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private final Map<PaymentMethod, BigDecimal> paymentMethods = new LinkedHashMap<>();
 
 
-    public List<FraudItem> getItems() {
+    public List<FraudAnalysisItem> getItems() {
         return Collections.unmodifiableList(items);
     }
 
@@ -37,8 +38,8 @@ public class Fraud {
         return Collections.unmodifiableMap(paymentMethods);
     }
 
-    public Integer addItem(FraudItem item){
-        item.setFraud(this);
+    public Integer addItem(FraudAnalysisItem item){
+        item.setFraudAnalysis(this);
         this.items.add(item);
         return items.size();
     }

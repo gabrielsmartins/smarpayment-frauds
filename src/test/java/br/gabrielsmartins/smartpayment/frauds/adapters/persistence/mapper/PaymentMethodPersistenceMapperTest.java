@@ -1,7 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper;
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.PaymentMethodEntity;
-import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.enums.PaymentMethodData;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.enums.PaymentMethod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import static br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.PaymentMethodEntitySupport.defaultPaymentMethodEntity;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class PaymentMethodPersistenceMapperTest {
@@ -35,10 +35,7 @@ public class PaymentMethodPersistenceMapperTest {
     @Test
     @DisplayName("Given Payment Method When Map Payment Method Entity")
     public void givenPaymentMethodWhenMapPaymentMethodEntity(){
-        PaymentMethodEntity paymentMethodEntity = PaymentMethodEntity.builder()
-                                                                     .withPaymentMethod(PaymentMethodData.CASH)
-                                                                      .withAmount(BigDecimal.valueOf(1500))
-                                                                     .build();
+        PaymentMethodEntity paymentMethodEntity = defaultPaymentMethodEntity().build();
         Map.Entry<PaymentMethod, BigDecimal> paymentMethod = this.mapper.mapToDomain(paymentMethodEntity);
 
         assertThat(paymentMethod).isNotNull();

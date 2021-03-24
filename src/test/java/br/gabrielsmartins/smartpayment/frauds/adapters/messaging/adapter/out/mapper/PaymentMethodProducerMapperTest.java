@@ -19,12 +19,25 @@ public class PaymentMethodProducerMapperTest {
     }
 
     @Test
-    @DisplayName("Given Payment Method When Map Then Return Message")
-    public void givenPaymentMethodWhenMapThenReturnMessage(){
+    @DisplayName("Given Payment Method When Map Then Return Fraud Detected Message")
+    public void givenPaymentMethodWhenMapThenReturnFraudDetectedMessage(){
         PaymentMethod paymentMethod = PaymentMethod.CASH;
         BigDecimal amount = BigDecimal.valueOf(1500);
 
-        br.gabrielsmartins.schemas.order_validated.PaymentMethod paymentMethodMessage = this.mapper.mapToMessage(paymentMethod, amount);
+        var paymentMethodMessage = this.mapper.mapToFraudDetectedMessage(paymentMethod, amount);
+
+        assertThat(paymentMethodMessage).hasNoNullFieldsOrProperties();
+        assertThat(paymentMethodMessage.getPaymentType().name()).isEqualTo(paymentMethod.name());
+        assertThat(paymentMethodMessage.getAmount()).isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("Given Payment Method When Map Then Return Fraud Discarded Message")
+    public void givenPaymentMethodWhenMapThenReturnFraudDiscardedMessage(){
+        PaymentMethod paymentMethod = PaymentMethod.CASH;
+        BigDecimal amount = BigDecimal.valueOf(1500);
+
+        var paymentMethodMessage = this.mapper.mapToFraudDiscardedMessage(paymentMethod, amount);
 
         assertThat(paymentMethodMessage).hasNoNullFieldsOrProperties();
         assertThat(paymentMethodMessage.getPaymentType().name()).isEqualTo(paymentMethod.name());

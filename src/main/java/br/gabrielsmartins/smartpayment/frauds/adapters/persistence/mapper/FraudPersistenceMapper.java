@@ -1,7 +1,7 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper;
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.entity.FraudEntity;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -13,14 +13,14 @@ public class FraudPersistenceMapper {
     private final FraudItemPersistenceMapper itemPersistenceMapper;
     private final PaymentMethodPersistenceMapper paymentMethodPersistenceMapper;
 
-    public FraudEntity mapToEntity(Fraud fraud) {
+    public FraudEntity mapToEntity(FraudAnalysis fraudAnalysis) {
         var mapper = new ModelMapper();
-        FraudEntity fraudEntity = mapper.map(fraud, FraudEntity.class);
-        fraud.getItems()
+        FraudEntity fraudEntity = mapper.map(fraudAnalysis, FraudEntity.class);
+        fraudAnalysis.getItems()
              .stream()
              .map(itemPersistenceMapper::mapToEntity)
              .forEach(fraudEntity::addItem);
-        fraud.getPaymentMethods()
+        fraudAnalysis.getPaymentMethods()
              .entrySet()
              .stream()
              .map(paymentMethodPersistenceMapper::mapToEntity)
@@ -28,18 +28,18 @@ public class FraudPersistenceMapper {
         return fraudEntity;
     }
 
-    public Fraud mapToDomain(FraudEntity fraudEntity) {
+    public FraudAnalysis mapToDomain(FraudEntity fraudEntity) {
         var mapper = new ModelMapper();
-        Fraud fraud = mapper.map(fraudEntity, Fraud.class);
+        FraudAnalysis fraudAnalysis = mapper.map(fraudEntity, FraudAnalysis.class);
         fraudEntity.getItems()
                 .stream()
                 .map(itemPersistenceMapper::mapToDomain)
-                .forEach(fraud::addItem);
+                .forEach(fraudAnalysis::addItem);
         fraudEntity.getPaymentMethods()
                 .stream()
                 .map(paymentMethodPersistenceMapper::mapToDomain)
-                .forEach(entry -> fraud.addPaymentMethod(entry.getKey(), entry.getValue()));
-        return fraud;
+                .forEach(entry -> fraudAnalysis.addPaymentMethod(entry.getKey(), entry.getValue()));
+        return fraudAnalysis;
     }
 
 }

@@ -1,6 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.application.service;
 
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SaveFraudUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,15 +13,15 @@ import static br.gabrielsmartins.smartpayment.frauds.application.support.OrderSu
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
-public class CreateFraudServiceTest {
+public class CreateFraudAnalysisServiceTest {
 
-    private CreateFraudService service;
+    private CreateFraudAnalysisService service;
     private SaveFraudUseCase saveFraudUseCase;
 
     @BeforeEach
     public void setup(){
         this.saveFraudUseCase = mock(SaveFraudUseCase.class);
-        this.service = new CreateFraudService(saveFraudUseCase);
+        this.service = new CreateFraudAnalysisService(saveFraudUseCase);
     }
 
     @Test
@@ -29,9 +29,9 @@ public class CreateFraudServiceTest {
     public void givenOrderWhenIsValidThenCreateFraud(){
         Order order = defaultOrder().build();
 
-        when(saveFraudUseCase.save(any(Fraud.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+        when(saveFraudUseCase.save(any(FraudAnalysis.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
 
-        this.service.create(order)
+        this.service.create(order, false)
                      .as(StepVerifier::create)
                      .assertNext(fraud -> {
                          assertThat(fraud.getCreatedAt()).isNotNull();
@@ -43,7 +43,7 @@ public class CreateFraudServiceTest {
                          assertThat(fraud.getPaymentMethods().size()).isEqualTo(order.getPaymentMethods().size());
                      });
 
-        verify(this.saveFraudUseCase, times(1)).save(any(Fraud.class));
+        verify(this.saveFraudUseCase, times(1)).save(any(FraudAnalysis.class));
     }
 
 }

@@ -20,7 +20,7 @@ import java.util.UUID;
 public class FraudEntity {
 
     @Id
-    @Field("fraud_id")
+    @Field("fraud_analysis_id")
     private String id;
 
     @Field("order_id")
@@ -37,6 +37,9 @@ public class FraudEntity {
 
     @Field("total_discount")
     private BigDecimal totalDiscount;
+
+    @Field("fraud")
+    private boolean fraud;
 
     @Field("items")
     @Getter(AccessLevel.NONE)

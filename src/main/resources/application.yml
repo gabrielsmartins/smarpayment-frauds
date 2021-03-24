@@ -34,9 +34,13 @@ spring:
           consume-in-0:
             binder: kafka
             group: ${spring.application.name}
-            destination: order-validation-topic
+            destination: order-status-changed
             content-type: application/*+avro
-          produce-out-0:
+          produceFraudDetected-out-0:
             binder: kafka
-            destination: orders-topic
+            destination: fraud-analyzed
+            content-type: application/*+avro
+          produceFraudDiscarded-out-0:
+            binder: kafka
+            destination: fraud-analyzed
             content-type: application/*+avro

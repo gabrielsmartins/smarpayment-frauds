@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-public class SearchFraudPersistenceAdapterTest {
+public class SearchFraudAnalysisPersistenceAdapterTest {
 
     private SearchFraudPersistenceAdapter adapter;
     private SearchFraudPersistenceService service;

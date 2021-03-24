@@ -1,9 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in;
 
-import br.gabrielsmartins.schemas.order_requested.Item;
-import br.gabrielsmartins.schemas.order_requested.OrderRequested;
-import br.gabrielsmartins.schemas.order_requested.PaymentMethod;
-import br.gabrielsmartins.schemas.order_requested.PaymentType;
+import br.gabrielsmartins.schemas.order_received.*;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.ProcessOrderUseCase;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +47,7 @@ public class OrderConsumerTest {
     public void givenMessageWhenConsumeThenReturnProcessedOrder(){
 
 
-        OrderRequested orderRequested = OrderRequested.newBuilder()
+        OrderReceived orderReceived = OrderReceived.newBuilder()
                                                         .setId(12345L)
                                                         .setCreatedAt(LocalDateTime.now())
                                                         .setTotalAmount(BigDecimal.valueOf(1500))
@@ -67,7 +64,7 @@ public class OrderConsumerTest {
                                                                 .build()))
                                                         .build();
 
-        Message<OrderRequested> message = MessageBuilder.withPayload(orderRequested)
+        Message<OrderReceived> message = MessageBuilder.withPayload(orderReceived)
                                                        .build();
 
         when(useCase.process(any(Order.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));

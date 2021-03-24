@@ -6,7 +6,7 @@ import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper.FraudP
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper.PaymentMethodPersistenceMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.service.SaveFraudPersistenceService;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.support.FraudEntitySupport;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SaveFraudPersistenceAdapterTest {
+public class SaveFraudAnalysisPersistenceAdapterTest {
 
     private SaveFraudPersistenceAdapter adapter;
     private SaveFraudPersistenceService service;
@@ -35,11 +35,11 @@ public class SaveFraudPersistenceAdapterTest {
     @Test
     @DisplayName("Given Fraud When Save Then Return Saved Fraud")
     public void givenFraudWhenSaveThenReturnSavedFraud(){
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
         when(service.save(any(FraudEntity.class))).thenReturn(Mono.just(FraudEntitySupport.defaultFraudEntity().build()));
 
-        this.adapter.save(fraud)
+        this.adapter.save(fraudAnalysis)
                 .as(StepVerifier::create)
                 .expectNextCount(1)
                 .verifyComplete();

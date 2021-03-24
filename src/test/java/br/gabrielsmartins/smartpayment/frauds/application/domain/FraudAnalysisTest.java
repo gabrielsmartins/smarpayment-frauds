@@ -9,23 +9,23 @@ import java.math.BigDecimal;
 import static br.gabrielsmartins.smartpayment.frauds.application.support.FraudItemSupport.defaultFraudItem;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class FraudTest {
+public class FraudAnalysisTest {
 
     @Test
     @DisplayName("Given Item When Add Then Return Items Size")
     public void givenItemWhenAddThenReturnItemsSize(){
-        Fraud fraud = new Fraud();
-        FraudItem item = defaultFraudItem().build();
-        Integer itemSize = fraud.addItem(item);
+        FraudAnalysis fraudAnalysis = new FraudAnalysis();
+        FraudAnalysisItem item = defaultFraudItem().build();
+        Integer itemSize = fraudAnalysis.addItem(item);
         assertThat(itemSize).isEqualTo(1);
-        assertThat(item.getFraud()).isNotNull();
+        assertThat(item.getFraudAnalysis()).isNotNull();
     }
 
     @Test
     @DisplayName("Given Payment Set When Add Then Return PaymentSets Size")
     public void givenPaymentSetWhenAddThenReturnPaymentSetsSize(){
-        Fraud fraud = new Fraud();
-        Integer paymentSetsSize = fraud.addPaymentMethod(PaymentMethod.CASH, BigDecimal.valueOf(500));
+        FraudAnalysis fraudAnalysis = new FraudAnalysis();
+        Integer paymentSetsSize = fraudAnalysis.addPaymentMethod(PaymentMethod.CASH, BigDecimal.valueOf(500));
         assertThat(paymentSetsSize).isEqualTo(1);
     }
 

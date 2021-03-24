@@ -2,7 +2,7 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in;
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.dto.FraudDTO;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudWebMapper;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.exception.FraudNotFoundException;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SaveFraudUseCase;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SearchFraudUseCase;
@@ -33,8 +33,8 @@ public class SaveFraudController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<FraudDTO> save(@RequestBody @Valid FraudDTO fraudDTO){
-        Fraud fraud = this.mapper.mapToDomain(fraudDTO);
-        return this.useCase.save(fraud).map(mapper::mapToDTO);
+        FraudAnalysis fraudAnalysis = this.mapper.mapToDomain(fraudDTO);
+        return this.useCase.save(fraudAnalysis).map(mapper::mapToDTO);
     }
 
     /**
@@ -48,9 +48,9 @@ public class SaveFraudController {
     public Mono<FraudDTO> update(@PathVariable("id") String id, @RequestBody @Valid FraudDTO fraudDTO){
         return searchFraudUseCase.findById(id)
                                   .flatMap(existingFraud -> {
-                                      Fraud fraud = this.mapper.mapToDomain(fraudDTO);
-                                      fraud.setId(existingFraud.getId());
-                                      return useCase.save(fraud)
+                                      FraudAnalysis fraudAnalysis = this.mapper.mapToDomain(fraudDTO);
+                                      fraudAnalysis.setId(existingFraud.getId());
+                                      return useCase.save(fraudAnalysis)
                                                      .map(mapper::mapToDTO);
                                   })
                                  .switchIfEmpty(Mono.error(new FraudNotFoundException("Fraud not found for id " + id)));

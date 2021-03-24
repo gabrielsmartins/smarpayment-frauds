@@ -1,6 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.application.service;
 
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SearchFraudUseCase;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.out.SearchFraudPort;
 import lombok.RequiredArgsConstructor;
@@ -14,37 +14,37 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class SearchFraudService implements SearchFraudUseCase {
+public class SearchFraudAnalysisService implements SearchFraudUseCase {
 
     private final SearchFraudPort port;
 
     @Override
-    public Mono<Fraud> findById(String id) {
+    public Mono<FraudAnalysis> findById(String id) {
         return this.port.findById(id);
     }
 
     @Override
-    public Flux<Fraud> findAll() {
+    public Flux<FraudAnalysis> findAll() {
         return this.port.findAll();
     }
 
     @Override
-    public Mono<Fraud> findByOrderId(Long orderId) {
+    public Mono<FraudAnalysis> findByOrderId(Long orderId) {
         return this.port.findByOrderId(orderId);
     }
 
     @Override
-    public Flux<Fraud> findByProductId(UUID productId, Pageable pageable) {
+    public Flux<FraudAnalysis> findByProductId(UUID productId, Pageable pageable) {
         return this.port.findByProductId(productId, pageable);
     }
 
     @Override
-    public Flux<Fraud> findByCustomerId(UUID customerId, Pageable pageable) {
+    public Flux<FraudAnalysis> findByCustomerId(UUID customerId, Pageable pageable) {
         return this.port.findByCustomerId(customerId, pageable);
     }
 
     @Override
-    public Flux<Fraud> findByInterval(LocalDateTime startDatetime, LocalDateTime endDatetime, Pageable pageable) {
+    public Flux<FraudAnalysis> findByInterval(LocalDateTime startDatetime, LocalDateTime endDatetime, Pageable pageable) {
         return this.port.findByInterval(startDatetime, endDatetime, pageable);
     }
 }

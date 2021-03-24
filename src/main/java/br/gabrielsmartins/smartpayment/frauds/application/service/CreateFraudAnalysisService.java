@@ -1,7 +1,7 @@
 package br.gabrielsmartins.smartpayment.frauds.application.service;
 
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudItem;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysisItem;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.OrderItem;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.CreateFraudUseCase;
@@ -16,19 +16,20 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CreateFraudService implements CreateFraudUseCase {
+public class CreateFraudAnalysisService implements CreateFraudUseCase {
 
     private final SaveFraudUseCase saveFraudUseCase;
 
     @Override
-    public Mono<Fraud> create(Order order) {
+    public Mono<FraudAnalysis> create(Order order, boolean isFraud) {
         log.info("Creating fraud register for order: {}", order);
-        Fraud fraud = mapToFraud(order);
-        return saveFraudUseCase.save(fraud);
+        FraudAnalysis fraudAnalysis = mapToFraud(order);
+        fraudAnalysis.setFraud(isFraud);
+        return saveFraudUseCase.save(fraudAnalysis);
     }
 
-    private Fraud mapToFraud(Order order) {
-        Fraud fraud = Fraud.builder()
+    private FraudAnalysis mapToFraud(Order order) {
+        FraudAnalysis fraudAnalysis = FraudAnalysis.builder()
                            .withOrderId(order.getId())
                            .withCustomerId(order.getCustomerId())
                            .withTotalAmount(order.getTotalAmount())
@@ -38,15 +39,15 @@ public class CreateFraudService implements CreateFraudUseCase {
         order.getItems()
              .stream()
              .map(this::mapToFraudItem)
-             .forEach(fraud::addItem);
+             .forEach(fraudAnalysis::addItem);
 
         order.getPaymentMethods()
-              .forEach(fraud::addPaymentMethod);
-        return fraud;
+              .forEach(fraudAnalysis::addPaymentMethod);
+        return fraudAnalysis;
     }
 
-    private FraudItem mapToFraudItem(OrderItem orderItem){
-        return FraudItem.builder()
+    private FraudAnalysisItem mapToFraudItem(OrderItem orderItem){
+        return FraudAnalysisItem.builder()
                 .withProductId(orderItem.getProductId())
                 .withQuantity(orderItem.getQuantity())
                 .withAmount(orderItem.getAmount())

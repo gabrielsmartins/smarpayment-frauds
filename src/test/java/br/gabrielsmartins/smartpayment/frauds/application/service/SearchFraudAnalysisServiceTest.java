@@ -17,15 +17,15 @@ import static br.gabrielsmartins.smartpayment.frauds.application.support.FraudSu
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class SearchFraudServiceTest {
+public class SearchFraudAnalysisServiceTest {
 
-    private SearchFraudService service;
+    private SearchFraudAnalysisService service;
     private SearchFraudPort port;
 
     @BeforeEach
     public void setup(){
         this.port = mock(SearchFraudPort.class);
-        this.service = new SearchFraudService(this.port);
+        this.service = new SearchFraudAnalysisService(this.port);
     }
 
     @Test

@@ -2,7 +2,7 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.persistence.adapter;
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.mapper.FraudPersistenceMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.persistence.service.SearchFraudPersistenceService;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.out.SearchFraudPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,37 +21,37 @@ public class SearchFraudPersistenceAdapter implements SearchFraudPort {
     private final FraudPersistenceMapper mapper;
 
     @Override
-    public Mono<Fraud> findById(String id) {
+    public Mono<FraudAnalysis> findById(String id) {
         return this.service.findById(id)
                            .map(mapper::mapToDomain);
     }
 
     @Override
-    public Flux<Fraud> findAll() {
+    public Flux<FraudAnalysis> findAll() {
         return this.service.findAll()
                            .map(mapper::mapToDomain);
     }
 
     @Override
-    public Mono<Fraud> findByOrderId(Long orderId) {
+    public Mono<FraudAnalysis> findByOrderId(Long orderId) {
         return this.service.findByOrderId(orderId)
                            .map(mapper::mapToDomain);
     }
 
     @Override
-    public Flux<Fraud> findByProductId(UUID productId, Pageable pageable) {
+    public Flux<FraudAnalysis> findByProductId(UUID productId, Pageable pageable) {
         return this.service.findByProductId(productId, pageable)
                            .map(mapper::mapToDomain);
     }
 
     @Override
-    public Flux<Fraud> findByCustomerId(UUID customerId, Pageable pageable) {
+    public Flux<FraudAnalysis> findByCustomerId(UUID customerId, Pageable pageable) {
         return this.service.findByCustomerId(customerId, pageable)
                            .map(mapper::mapToDomain);
     }
 
     @Override
-    public Flux<Fraud> findByInterval(LocalDateTime startDatetime, LocalDateTime endDatetime, Pageable pageable) {
+    public Flux<FraudAnalysis> findByInterval(LocalDateTime startDatetime, LocalDateTime endDatetime, Pageable pageable) {
         return this.service.findByInterval(startDatetime, endDatetime, pageable)
                            .map(mapper::mapToDomain);
     }

@@ -1,6 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper;
 
-import br.gabrielsmartins.schemas.order_requested.Item;
+import br.gabrielsmartins.schemas.order_received.Item;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.OrderItem;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;

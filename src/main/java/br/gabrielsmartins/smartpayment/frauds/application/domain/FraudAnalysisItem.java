@@ -9,9 +9,9 @@ import java.util.UUID;
 @Builder(setterPrefix = "with")
 @AllArgsConstructor
 @NoArgsConstructor
-public class FraudItem {
+public class FraudAnalysisItem {
 
-    private Fraud fraud;
+    private FraudAnalysis fraudAnalysis;
     private UUID productId;
     private Integer quantity;
     private BigDecimal amount;

@@ -1,5 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.application.service;
 
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.CreateFraudUseCase;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.NotifyOrderValidationUseCase;
@@ -31,13 +32,13 @@ public class ProcessOrderServiceTest {
     }
 
     @Test
-    @DisplayName("Given Order When Process Then Return Processed Order")
-    public void givenOrderWhenProcessThenReturnProcessedOrder(){
+    @DisplayName("Given Order When Is Fraud Then Return Processed Fraud Analysis")
+    public void givenOrderWhenIsFraudThenReturnProcessedFraudAnalysis(){
         Order order = defaultOrder().build();
 
         when(validateOrderUseCase.isValid(any(Order.class))).thenReturn(Mono.just(false));
-        when(createFraudUseCase.create(any(Order.class))).thenReturn(Mono.just(defaultFraud().build()));
-        when(notifyOrderValidationUseCase.notify(any(Order.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+        when(createFraudUseCase.create(any(Order.class), anyBoolean())).thenReturn(Mono.just(defaultFraud().build()));
+        when(notifyOrderValidationUseCase.notify(any(FraudAnalysis.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
 
         this.service.process(order)
                     .as(StepVerifier::create)
@@ -45,8 +46,26 @@ public class ProcessOrderServiceTest {
                     .verifyComplete();
 
         verify(this.validateOrderUseCase, times(1)).isValid(any(Order.class));
-        verify(this.createFraudUseCase, times(1)).create(any(Order.class));
-        verify(this.notifyOrderValidationUseCase, times(1)).notify(any(Order.class));
+        verify(this.createFraudUseCase, times(1)).create(any(Order.class), anyBoolean());
+        verify(this.notifyOrderValidationUseCase, times(1)).notify(any(FraudAnalysis.class));
     }
 
+    @Test
+    @DisplayName("Given Order When Is Not Fraud Then Return Processed Fraud Analysis")
+    public void givenOrderWhenProcessThenReturnProcessedFraudAnalysis(){
+        Order order = defaultOrder().build();
+
+        when(validateOrderUseCase.isValid(any(Order.class))).thenReturn(Mono.just(true));
+        when(createFraudUseCase.create(any(Order.class), anyBoolean())).thenReturn(Mono.just(defaultFraud().build()));
+        when(notifyOrderValidationUseCase.notify(any(FraudAnalysis.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+
+        this.service.process(order)
+                    .as(StepVerifier::create)
+                    .expectNextCount(1)
+                    .verifyComplete();
+
+        verify(this.validateOrderUseCase, times(1)).isValid(any(Order.class));
+        verify(this.createFraudUseCase, times(1)).create(any(Order.class), anyBoolean());
+        verify(this.notifyOrderValidationUseCase, times(1)).notify(any(FraudAnalysis.class));
+    }
 }

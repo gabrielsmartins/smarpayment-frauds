@@ -1,5 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.application.service;
 
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.Order;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.CreateFraudUseCase;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.NotifyOrderValidationUseCase;
@@ -20,20 +21,21 @@ public class ProcessOrderService implements ProcessOrderUseCase {
     private final NotifyOrderValidationUseCase notifyOrderValidationUseCase;
 
     @Override
-    public Mono<Order> process(Order order) {
+    public Mono<FraudAnalysis> process(Order order) {
         log.info("Processing order: {}", order);
         return validateOrderUseCase.isValid(order)
-                                   .flatMap(isValid -> this.checkFraud(order, isValid))
-                                   .flatMap(notifyOrderValidationUseCase::notify);
+                                   .flatMap(isValid -> this.createFraudAnalysis(order, !isValid))
+                                   .flatMap(this::notifyFraudAnalysis);
     }
 
-    private Mono<Order> checkFraud(Order order, Boolean isValid) {
-        if(!isValid){
-            log.warn("Fraud detected: {}", order);
-            createFraudUseCase.create(order)
-                              .doOnSuccess(fraud -> log.info("Fraud created successfully: {}", fraud));
-        }
-        return Mono.just(order);
+    private Mono<FraudAnalysis> createFraudAnalysis(Order order, boolean isFraud) {
+        return createFraudUseCase.create(order, isFraud)
+                                 .doOnSuccess(fraud -> log.info("Fraud created successfully: {}", fraud));
+    }
+
+    private Mono<FraudAnalysis> notifyFraudAnalysis(FraudAnalysis fraudAnalysis){
+        return this.notifyOrderValidationUseCase.notify(fraudAnalysis)
+                                                .doOnSuccess(it -> log.info("Fraud analysis sent successfully: {}", fraudAnalysis));
     }
 
 }

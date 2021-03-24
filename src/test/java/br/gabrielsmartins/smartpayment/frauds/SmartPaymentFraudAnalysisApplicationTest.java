@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
-public class SmartPaymentFraudApplicationTest {
+public class SmartPaymentFraudAnalysisApplicationTest {
 
     @Test
     void contextLoads(){

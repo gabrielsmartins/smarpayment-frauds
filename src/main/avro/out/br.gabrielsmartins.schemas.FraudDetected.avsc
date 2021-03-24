@@ -1,11 +1,13 @@
 {
    "type":"record",
-   "name":"OrderValidated",
-   "namespace":"br.gabrielsmartins.schemas.order_validated",
+   "name":"FraudDetected",
+   "namespace":"br.gabrielsmartins.schemas.fraud_detected",
    "fields":[
-      {
-         "name":"id",
-         "type": "long"
+      { "name": "id",
+        "type": {
+         "type": "string",
+         "logicalType": "uuid"
+       }
       },
       {
          "name":"customer_id",

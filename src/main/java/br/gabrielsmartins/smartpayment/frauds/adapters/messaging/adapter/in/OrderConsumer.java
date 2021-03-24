@@ -1,6 +1,6 @@
 package br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in;
 
-import br.gabrielsmartins.schemas.order_requested.OrderRequested;
+import br.gabrielsmartins.schemas.order_received.OrderReceived;
 import br.gabrielsmartins.smartpayment.frauds.adapters.messaging.adapter.in.mapper.OrderConsumerMapper;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.ProcessOrderUseCase;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class OrderConsumer {
     private final OrderConsumerMapper mapper;
 
     @Bean
-    public Consumer<Flux<Message<OrderRequested>>> consume(){
+    public Consumer<Flux<Message<OrderReceived>>> consume(){
         return payload -> {
             payload.doOnNext(message -> log.info("Receiving order: {}", message))
                    .map(Message::getPayload)

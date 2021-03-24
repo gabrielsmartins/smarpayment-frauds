@@ -2,7 +2,7 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in;
 
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudItemWebMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudWebMapper;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SearchFraudUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = SearchFraudController.class)
 @Import({FraudWebMapper.class, FraudItemWebMapper.class})
-public class SearchFraudControllerTest {
+public class SearchFraudAnalysisControllerTest {
 
     @MockBean
     private SearchFraudUseCase useCase;
@@ -42,16 +42,16 @@ public class SearchFraudControllerTest {
     @DisplayName("Given Frauds When Exists Then Return Fraud")
     public void givenFraudsWhenExistsThenReturnFraud(){
 
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
-        when(useCase.findAll()).thenReturn(Flux.just(fraud));
+        when(useCase.findAll()).thenReturn(Flux.just(fraudAnalysis));
 
         webClient.get()
                 .uri("/frauds-v1/frauds")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("[0].id", fraud.getId());
+                .jsonPath("[0].id", fraudAnalysis.getId());
 
         verify(this.useCase, times(1)).findAll();
     }
@@ -60,16 +60,16 @@ public class SearchFraudControllerTest {
     @DisplayName("Given Id When Exists Then Return Fraud")
     public void givenIdWhenExistsThenReturnFraud(){
 
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
-        when(useCase.findById(anyString())).thenReturn(Mono.just(fraud));
+        when(useCase.findById(anyString())).thenReturn(Mono.just(fraudAnalysis));
 
         webClient.get()
-                 .uri("/frauds-v1/frauds/{id}", fraud.getId())
+                 .uri("/frauds-v1/frauds/{id}", fraudAnalysis.getId())
                  .exchange()
                  .expectStatus().isOk()
                  .expectBody()
-                 .jsonPath("id", fraud.getId());
+                 .jsonPath("id", fraudAnalysis.getId());
 
         verify(this.useCase, times(1)).findById(anyString());
     }
@@ -78,18 +78,18 @@ public class SearchFraudControllerTest {
     @DisplayName("Given Order Id When Exists Then Return Fraud")
     public void givenOrderIdWhenExistsThenReturnFraud(){
 
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
-        when(useCase.findByOrderId(anyLong())).thenReturn(Mono.just(fraud));
+        when(useCase.findByOrderId(anyLong())).thenReturn(Mono.just(fraudAnalysis));
 
         webClient.get()
                  .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
-                         .queryParam("order_id", fraud.getOrderId())
+                         .queryParam("order_id", fraudAnalysis.getOrderId())
                      .build())
                  .exchange()
                  .expectStatus().isOk()
                  .expectBody()
-                 .jsonPath("id", fraud.getId());
+                 .jsonPath("id", fraudAnalysis.getId());
 
         verify(this.useCase, times(1)).findByOrderId(anyLong());
     }
@@ -98,18 +98,18 @@ public class SearchFraudControllerTest {
     @DisplayName("Given Customer Id When Exists Then Return Fraud")
     public void givenCustomerIdWhenExistsThenReturnFraud(){
 
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
-        when(useCase.findByCustomerId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(fraud));
+        when(useCase.findByCustomerId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(fraudAnalysis));
 
         webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
-                        .queryParam("customer_id", fraud.getCustomerId())
+                        .queryParam("customer_id", fraudAnalysis.getCustomerId())
                         .build())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("[0].id", fraud.getId());
+                .jsonPath("[0].id", fraudAnalysis.getId());
 
         verify(this.useCase, times(1)).findByCustomerId(any(UUID.class), any(Pageable.class));
     }
@@ -118,18 +118,18 @@ public class SearchFraudControllerTest {
     @DisplayName("Given Product Id When Exists Then Return Fraud")
     public void givenProductIdWhenExistsThenReturnFraud(){
 
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
-        when(useCase.findByProductId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(fraud));
+        when(useCase.findByProductId(any(UUID.class), any(Pageable.class))).thenReturn(Flux.just(fraudAnalysis));
 
         webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
-                        .queryParam("product_id", fraud.getCustomerId())
+                        .queryParam("product_id", fraudAnalysis.getCustomerId())
                         .build())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("[0].id", fraud.getId());
+                .jsonPath("[0].id", fraudAnalysis.getId());
 
         verify(this.useCase, times(1)).findByProductId(any(UUID.class), any(Pageable.class));
     }
@@ -138,9 +138,9 @@ public class SearchFraudControllerTest {
     @DisplayName("Given Interval When Exists Then Return Fraud")
     public void givenIntervalWhenExistsThenReturnFraud(){
 
-        Fraud fraud = defaultFraud().build();
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
 
-        when(useCase.findByInterval(any(LocalDateTime.class),any(LocalDateTime.class), any(Pageable.class))).thenReturn(Flux.just(fraud));
+        when(useCase.findByInterval(any(LocalDateTime.class),any(LocalDateTime.class), any(Pageable.class))).thenReturn(Flux.just(fraudAnalysis));
 
         webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/frauds-v1/frauds")
@@ -150,7 +150,7 @@ public class SearchFraudControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("[0].id", fraud.getId());
+                .jsonPath("[0].id", fraudAnalysis.getId());
 
         verify(this.useCase, times(1)).findByInterval(any(LocalDateTime.class), any(LocalDateTime.class), any(Pageable.class));
     }

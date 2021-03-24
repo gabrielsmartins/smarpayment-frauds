@@ -3,8 +3,8 @@ package br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.dto.FraudDTO;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudItemWebMapper;
 import br.gabrielsmartins.smartpayment.frauds.adapters.web.adapter.in.mapper.FraudWebMapper;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.Fraud;
-import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudItem;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysis;
+import br.gabrielsmartins.smartpayment.frauds.application.domain.FraudAnalysisItem;
 import br.gabrielsmartins.smartpayment.frauds.application.domain.enums.PaymentMethod;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SaveFraudUseCase;
 import br.gabrielsmartins.smartpayment.frauds.application.ports.in.SearchFraudUseCase;
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = SaveFraudController.class)
 @Import({FraudWebMapper.class, FraudItemWebMapper.class})
-public class SaveFraudControllerTest {
+public class SaveFraudAnalysisControllerTest {
 
     @MockBean
     private SaveFraudUseCase useCase;
@@ -66,11 +66,11 @@ public class SaveFraudControllerTest {
 
         String body = mapper.writeValueAsString(fraudDTO);
 
-        Fraud fraudMock = defaultFraud().build();
-        fraudMock.addItem(defaultFraudItem().build());
-        fraudMock.addPaymentMethod(PaymentMethod.CASH, BigDecimal.valueOf(1500));
+        FraudAnalysis fraudAnalysisMock = defaultFraud().build();
+        fraudAnalysisMock.addItem(defaultFraudItem().build());
+        fraudAnalysisMock.addPaymentMethod(PaymentMethod.CASH, BigDecimal.valueOf(1500));
 
-        when(useCase.save(any(Fraud.class))).thenReturn(Mono.just(fraudMock));
+        when(useCase.save(any(FraudAnalysis.class))).thenReturn(Mono.just(fraudAnalysisMock));
 
         webClient.post()
                  .uri("/frauds-v1/frauds")
@@ -81,7 +81,7 @@ public class SaveFraudControllerTest {
                  .expectBody()
                  .jsonPath("id").isNotEmpty();
 
-        verify(this.useCase, times(1)).save(any(Fraud.class));
+        verify(this.useCase, times(1)).save(any(FraudAnalysis.class));
     }
 
     @Test
@@ -94,12 +94,12 @@ public class SaveFraudControllerTest {
 
         String body = mapper.writeValueAsString(fraudDTO);
 
-        Fraud fraud = defaultFraud().build();
-        FraudItem fraudItem = defaultFraudItem().build();
-        fraud.addItem(fraudItem);
+        FraudAnalysis fraudAnalysis = defaultFraud().build();
+        FraudAnalysisItem fraudAnalysisItem = defaultFraudItem().build();
+        fraudAnalysis.addItem(fraudAnalysisItem);
 
-        when(searchFraudUseCase.findById(anyString())).thenReturn(Mono.just(fraud));
-        when(useCase.save(any(Fraud.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
+        when(searchFraudUseCase.findById(anyString())).thenReturn(Mono.just(fraudAnalysis));
+        when(useCase.save(any(FraudAnalysis.class))).thenAnswer(invocation -> Mono.just(invocation.getArgument(0)));
 
         webClient.put()
                  .uri("/frauds-v1/frauds/{id}", fraudDTO.getId())
@@ -108,10 +108,10 @@ public class SaveFraudControllerTest {
                  .exchange()
                  .expectStatus().isOk()
                  .expectBody()
-                 .jsonPath("id").isEqualTo(fraud.getId().toString());
+                 .jsonPath("id").isEqualTo(fraudAnalysis.getId().toString());
 
         verify(this.searchFraudUseCase, times(1)).findById(anyString());
-        verify(this.useCase, times(1)).save(any(Fraud.class));
+        verify(this.useCase, times(1)).save(any(FraudAnalysis.class));
     }
 
 
