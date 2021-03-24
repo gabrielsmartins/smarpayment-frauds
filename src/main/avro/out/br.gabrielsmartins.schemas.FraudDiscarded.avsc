@@ -9,6 +9,10 @@
           "logicalType": "uuid"
         }
       },
+     {
+       "name":"order_id",
+       "type": "long"
+     },
       {
          "name":"customer_id",
          "type": {
