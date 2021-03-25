@@ -1,6 +1,6 @@
 # Microservice for Frauds using Hexagonal Architecture
 
-[![Build Status](https://travis-ci.com/gabrielsmartins/smartpayment-orders.svg?branch=master)](https://travis-ci.com/gabrielsmartins/smartpayment-frauds)
+[![Build Status](https://travis-ci.com/gabrielsmartins/smartpayment-frauds.svg?branch=master)](https://travis-ci.com/gabrielsmartins/smartpayment-frauds)
 
 This Project is an Example Implementation of a Hexagonal Architecture and Event Collaboration using the following technologies:
 
